@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Play music on Terminal via python - AI Research | technical blogs</title>
+    <meta name="description" content="">
+
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Mono|Roboto:300,400,900,400italic' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="canonical" href="https://dungntnew.github.io/2017/09/sady-terminal-python-music">
+    <link rel="alternate" type="application/rss+xml" title="AI Research | technical blogs" href="https://dungntnew.github.io/feed.xml">
+</head>
+
+    <body>
+        <main class="u-container">
+        <div class="c-page">
+    <header class="c-page__header">
+    <h1><code>AI Research | technical blogs</code></h1>
+
+    
+    <p>
+        <a href="/">Home</a><span
+          class="u-separate"></span> <a href="/projects/">Projects</a><span class="u-separate"></span> <a href="/about/">About</a><span class="u-separate"></span><a href="/feed.xml">RSS</a>
+    </p>
+</header>
+
+    <div class="c-page__main">
+    <article class="c-article">
+    <header class="c-article__header">
+        <h1 class="c-article__title">Play music on Terminal via python</h1>
+        <p class="c-article__time"><time datetime="2017-09-14T00:00:00+09:00" itemprop="datePublished">Sep 14, 2017</time></p>
+    </header>
+    
+    <!-- Post Tags -->
+    <ul class="c-tags">
+    
+      <li class="c-tag">sady,</li>
+    
+      <li class="c-tag">terminal,</li>
+    
+      <li class="c-tag">music</li>
+    
+    </ul>
+
+    <div class="c-article__main">
+        <script async="" defer="" src="https://buttons.github.io/buttons.js"></script>
+
+<p align="center">
+  <p align="center">
+	 A simple python play music tool
+	 <br />
+	 <br />
+	 <a class="no-hov" href="https://github.com/dungntnew/sady"><img src="https://dungntnew.github.io/assets/sady/sady-1.png" /></a>
+	 <a class="no-hov" href="https://raw.githubusercontent.com/dungntnew/sady/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" /></a>
+	 <br /><br />
+	 <a class="github-button" href="https://github.com/dungntnew/sady" data-size="large" data-show-count="true" aria-label="Star mkchoi212/paper-jekyll-theme on GitHub">Stars</a>
+  </p>
+</p>
+<p><br /></p>
+
+<p>Sady is a minimal cloud music search and play tools. Perfect for Terminal lover
+Coding and Relax without open Web browser. Sady tool also include some quick command
+for example: help, search, download sync, list, history.
+That tools was developed with perpose for learning Python 3 in my free time,
+I’m looking forward your contribute and feedback.</p>
+
+<h2 id="features">Features</h2>
+<ul>
+  <li>Written entries on Python3</li>
+  <li>Best module practice with separated layers: UI - handlers - services</li>
+  <li>Async request</li>
+  <li>Local cache synced music file =&gt; you can play without network connect.</li>
+</ul>
+
+<h2 id="usage">Usage</h2>
+
+<h3 id="quick-install">Quick Install</h3>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>$ curl "https://raw.githubusercontent.com/dungntnew/sady/master/install.sh?v=1.0" | sh
+</code></pre>
+</div>
+
+<p>This script use for Macosx only. For ubuntu or other linux users please use manual install.
+current issues: zsh: command not found: just after installed in current termial session
+=&gt; open other termial tab to reload ~/.bash_profile  or: source ~/.bash_profile to take effect.</p>
+
+<h3 id="dependences">Dependences</h3>
+<ul>
+  <li>python &gt;= 3.3 (asyncio requires Python 3.3 or later)</li>
+  <li>mplayer (music player commandline version)</li>
+</ul>
+
+<h3 id="manual-initialization">Manual Initialization</h3>
+
+<p>Install dependences if need (MacOSX).</p>
+
+<p>( For other linux - window users , to install mplayer and python3 please type:<code class="highlighter-rouge">$ [google('how to install %s' % pkg for pkg in dependences)] </code>)</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code># install mplayer via homebrew
+$ brew install mplayer
+
+# install python3
+$ brew install python3
+</code></pre>
+</div>
+
+<p>Clone &amp; Install <code class="highlighter-rouge">sady</code></p>
+
+<p>(For all linux users &amp; Macosx users)</p>
+<div class="highlighter-rouge"><pre class="highlight"><code># clone repo to your local directory
+$ SADY_HOME_DIR=~/.sady
+$ git clone git@github.com:dungntnew/sady.git $SADY_HOME_DIR
+$ cd $SADY_HOME_DIR
+
+# create python env &amp; install dependence python packages
+$ virtualenv -p python3 ./env &amp;&amp; source ./env/bin/activate
+$ pip install -r requirements.txt
+</code></pre>
+</div>
+
+<p>Add <code class="highlighter-rouge">sady</code> commandline to your bashrc (~/.bash_profile)</p>
+
+<p>(For all linux users &amp; Macosx users)</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>$ echo "export SADY_HOME_DIR=$SADY_HOME_DIR" &gt;&gt; ~/.bash_profile
+$ echo "alias sady='cd $SADY_HOME_DIR &amp;&amp; ./env/bin/python3 ./__init__.py'" &gt;&gt; ~/.bash_profile
+$ source ~/.bash_profile
+</code></pre>
+</div>
+
+<h3 id="run---to-enjoy-๑̵ᴗ̵">Run -&gt; to enjoy (๑˃̵ᴗ˂̵)</h3>
+<div class="highlighter-rouge"><pre class="highlight"><code>$ sady -q "Lets it go Idina Menzel"
+</code></pre>
+</div>
+
+<h3 id="usage-1">Usage</h3>
+
+<p>cmd mod</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>command</th>
+      <th style="text-align: center">description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>any</td>
+      <td style="text-align: center">search and play any track by name, keywords, etc..</td>
+    </tr>
+    <tr>
+      <td>exit</td>
+      <td style="text-align: center">to quit sady</td>
+    </tr>
+    <tr>
+      <td>search</td>
+      <td style="text-align: center">search track by name, keywords, singer, etc..</td>
+    </tr>
+    <tr>
+      <td>select</td>
+      <td style="text-align: center">select one track index to play (auto sync)</td>
+    </tr>
+    <tr>
+      <td>sync</td>
+      <td style="text-align: center">sync track to play in local with track index (no param -&gt; all)</td>
+    </tr>
+    <tr>
+      <td>list</td>
+      <td style="text-align: center">list all tracks in playlist (alias: ll, top)</td>
+    </tr>
+    <tr>
+      <td>next</td>
+      <td style="text-align: center">next tracks page</td>
+    </tr>
+    <tr>
+      <td>prev</td>
+      <td style="text-align: center">prev tracks page</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>playing mod:</p>
+
+<p>( ref: player –help  or man player to see help)</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>command</th>
+      <th style="text-align: center">description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>q</td>
+      <td style="text-align: center">to quit mplayer - back to sady cmd</td>
+    </tr>
+    <tr>
+      <td>space</td>
+      <td style="text-align: center">to pause - replay track</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="screen-shoots">Screen shoots</h2>
+
+<h4 id="start-tool-and-show-available-commands">Start tool and show available commands</h4>
+<p class="center"><img src="https://dungntnew.github.io/assets/sady/sady-1.png" alt="Center screen -1 " title="Center" /></p>
+
+<h4 id="free-style-search-music-by-song-title-and-singer">Free style search music by song title and singer</h4>
+<p class="center"><img src="https://dungntnew.github.io/assets/sady/sady-2.png" alt="Center screen -2 " title="Center" /></p>
+
+<h4 id="select-a-song-to-play-from-list">Select a song to play from list</h4>
+<p class="center"><img src="https://dungntnew.github.io/assets/sady/sady-3.png" alt="Center screen -3 " title="Center" /></p>
+
+<h4 id="after-song-synced---sound-will-play-via-mplayer">After song synced - sound will play via mplayer</h4>
+<p class="center"><img src="https://dungntnew.github.io/assets/sady/sady-4.png" alt="Center screen -4 " title="Center" /></p>
+
+<h1 id="licnese">Licnese</h1>
+<p>The MIT License (MIT)</p>
+
+<p>Copyright (c) 2017 DZung Nguyen</p>
+
+<p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
+
+<p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
+
+<p>THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
+
+    </div>
+  
+    <!-- Previous / Next Buttons -->
+    <div class="pagenav">
+		
+		
+		</div>
+
+		<!-- Disqus comments view -->
+		
+</article>
+
+    </div>
+    <footer class="c-page__footer">
+    <p>&copy; dungntnew 2017</p>
+    <p><a href="https://twitter.com/dungntnew">Twitter</a><span class="u-separate"></span><a href="https://github.com/dungntnew">Github</a></p>
+</footer>
+
+</div>
+
+        </main>
+    
+    </body>
+</html>
