@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Mathematical notation, equation, formulas with MathJax - AI Research | technical blogs</title>
+    <meta name="description" content="">
+
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Mono|Roboto:300,400,900,400italic' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="canonical" href="http://localhost:4000/2017/09/mathjax-cheetsheet">
+    <link rel="alternate" type="application/rss+xml" title="AI Research | technical blogs" href="http://localhost:4000/feed.xml">
+    
+      <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    TeX: {
+      equationNumbers: {
+        autoNumber: "AMS"
+      }
+    },
+    tex2jax: {
+      inlineMath: [ ['$','$'], ['\(', '\)'] ],
+      displayMath: [ ['$$','$$'] ],
+      processEscapes: true,
+    }
+  });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+</script>
+
+    
+<script src="http://127.0.0.1:35729/livereload.js"></script></head>
+
+    <body>
+        <main class="u-container">
+        <div class="c-page">
+    <header class="c-page__header">
+    <h1><code>AI Research | technical blogs</code></h1>
+
+    
+    <p>
+        <a href="/">Home</a><span
+          class="u-separate"></span> <a href="/projects/">Projects</a><span class="u-separate"></span> <a href="/about/">About</a><span class="u-separate"></span><a href="/feed.xml">RSS</a>
+    </p>
+</header>
+
+    <div class="c-page__main">
+    <article class="c-article">
+    <header class="c-article__header">
+        <h1 class="c-article__title">Mathematical notation, equation, formulas with MathJax</h1>
+        <p class="c-article__time"><time datetime="2017-09-21T00:00:00+09:00" itemprop="datePublished">Sep 21, 2017</time></p>
+    </header>
+    
+    <!-- Post Tags -->
+    <ul class="c-tags">
+    
+      <li class="c-tag">Markdown</li>
+    
+      <li class="c-tag">Math</li>
+    
+      <li class="c-tag">LaTeX</li>
+    
+      <li class="c-tag">Mathjax</li>
+    
+    </ul>
+
+    <div class="c-article__main">
+        <script async="" defer="" src="https://buttons.github.io/buttons.js"></script>
+
+<h4 id="inline-formulas-and-block-formulars"><em>Inline</em> formulas and <em>block</em> formulars</h4>
+<p>Enclose the formula in <code class="highlighter-rouge">$...$</code>. For display block formula: <code class="highlighter-rouge">$$...$$</code>.</p>
+
+<p>These render differently. For example, type:<br />
+<code class="highlighter-rouge">$\sum_{i=0}^n i^2 = \frac{(n^2+n)(2n+1)}{6}$</code><br />
+to show: $\sum_{i=0}^n i^2 = \frac{(n^2 + n)(2n + 1 )}{6}$ which is inline mode or type:</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>$$
+\sum_{i=0}^n = \frac{(n^2 + n)(2n + 1)}{6}
+$$
+</code></pre>
+</div>
+<p>to show:<br />
+<script type="math/tex">\sum_{i=0}^n = \frac{(n^2 + n)(2n + 1)}{6}</script></p>
+
+<h4 id="greek-letters">Greek Letters</h4>
+<p>For <strong>Greek letters</strong>,use <code class="highlighter-rouge">$ \alpha, \beta, ..., \omega $</code>: $\alpha, \beta, \omega$. For uppercase, use: <code class="highlighter-rouge">$ \Gamma \Delta \Omega$</code>: $ \Gamma \Delta \Omega$.</p>
+
+<p>To show:</p>
+
+<script type="math/tex; mode=display">\forall x \in X, \quad \exists y \leq \epsilon</script>
+
+<p>write:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>\forall x \in X, \quad \exists y \leq \epsilon
+</code></pre>
+</div>
+
+<h4 id="for-superscripts-and-subscripts">For <strong>superscripts and subscripts</strong></h4>
+<p>Use <code class="highlighter-rouge">^</code> and <code class="highlighter-rouge">_</code>. For example: <code class="highlighter-rouge">$x_i^2$</code>: $x_i^2$, <code class="highlighter-rouge">$\log_2 x$</code>: $\log_2 x$</p>
+
+<h4 id="groups">Groups</h4>
+<p>Superscript and subcripts, and other operations apply only to the next “group”. A “groups” is iether a single symbol, or any formula surrounded by curly braces <em>{…}</em>. If you do <code class="highlighter-rouge">10^10</code>, you will get surprise: $10^1$0. But <code class="highlighter-rouge">10^{10}</code> gives what you probaly wanted: $10^{10}$. Use curly braces to delimit a formula to which a superscripts or subscridpt applies: <code class="highlighter-rouge">x^5^6</code> is an error; <code class="highlighter-rouge"><span class="p">{</span><span class="err">x^y</span><span class="p">}</span><span class="err">^z</span></code> is: ${x^y}^z$. And <code class="highlighter-rouge">x^{y^z}</code> is $x^{y^z}$. Observe the difference between <code class="highlighter-rouge">x_i^2</code> $x_i^2$ and <code class="highlighter-rouge">x_{i^2}</code> $x_{i^2}$.</p>
+
+<h4 id="parentheses">Parentheses</h4>
+<p>Ordinary symbols <code class="highlighter-rouge">() []</code> make parentheses and brackets $(2+3)[4 + 4]$. Use <code class="highlighter-rouge">\{</code> and <code class="highlighter-rouge">\}</code> for curly braces {}.</p>
+
+<p>Using <code class="highlighter-rouge">\left(</code>…<code class="highlighter-rouge">\right)</code> to make size ajust automatically to the formula they enclose, for example:<br />
+$\left( \frac{\sqrt{x}}{y^3} \right)$</p>
+
+<p>Some sorts for <code class="highlighter-rouge">\left ...\right</code>:</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>$ \left( x  \right) $
+$ \left[ x  \right] $
+$ \\{ x \\} $
+$ | x | $
+$ \left| \frac{x+1}{x} \right| $
+$ \left\vert x  \right\vert $
+$ \left\Vert x  \right\Vert $
+$ \langle x \rangle $
+$ \lceil x \rceil $
+$ \lfloor x \rfloor$
+</code></pre>
+</div>
+<p>$\left( x  \right)$
+$\left[ x  \right]$</p>
+
+<p>$\{x + 1\}$<br />
+$ | x | $<br />
+$ \left| \frac{x+1}{x} \right| $<br />
+$ \left\vert x  \right\vert $
+$ \left\Vert x  \right\Vert $ 
+$ \langle x \rangle $<br />
+$ \lceil x \rceil $<br />
+$ \lfloor x \rfloor$</p>
+
+<p>There are also invisible parentheses, denoted by <code class="highlighter-rouge">.</code>: <code class="highlighter-rouge">\left.\frac12\right\rbrace</code> is $\left.\frac12\right\rbrace$.</p>
+
+<h4 id="sum-and-integrals">Sum and integrals</h4>
+<p><code class="highlighter-rouge">\sum</code> and <code class="highlighter-rouge">\int</code>; the subscript is lower limit and superscript is the upper limit, so for example:<br />
+<code class="highlighter-rouge">\sum_1^n</code> is $\sum_1^n$. Dont forget <em>{}</em> if the limits are more than a single symbol. For example:<br />
+<code class="highlighter-rouge">\sum_{i=0}^{\infty} i^2</code> is $\sum_{i=0}^{\infty} i^2$.<br />
+Similarly, <code class="highlighter-rouge">\prod</code> $\prod$ and <code class="highlighter-rouge">\int</code> $\int$, <code class="highlighter-rouge">\bigcup</code> $\bigcup$, <code class="highlighter-rouge">\bigcap</code> $\bigcap$, <code class="highlighter-rouge">\iint</code> $\iint$.</p>
+
+<p>Example: in mathematics, A the symbol $\prod$ is representing a product over a set of terms.
+<script type="math/tex">\prod_{n=1}^3 2n = 2 \cdot 4 \cdot 6</script></p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{eqnarray}
+\max (a, b)
+= 
+  \begin{cases}
+  a & (a\geqq b) \\
+  b & (a \lt  b)
+  \end{cases}
+\end{eqnarray} %]]></script>
+
+<h4 id="fractions">Fractions</h4>
+<p>The are two ways to make these. <code class="highlighter-rouge">\frac ab</code> applies to next two groups and produces $\frac ab$; for more complicated numerators and denominators use <code class="highlighter-rouge"><span class="p">{</span><span class="err">..</span><span class="p">}</span></code>: <code class="highlighter-rouge">$\frac{a +1}{b + 1}$</code> is $\frac{a +1}{b + 1}$. If the numrator and denominator are complicated, you maybe prefer <code class="highlighter-rouge">\over</code> which splits up the group that it is in: <code class="highlighter-rouge"><span class="p">{</span><span class="err">a+1</span><span class="p">}</span><span class="err">\orver</span><span class="p">{</span><span class="err">b+1</span><span class="p">}</span></code> is: ${a + 1} \over {b + 1}$.</p>
+<h4 id="radical-signs">Radical signs</h4>
+<p>use <code class="highlighter-rouge">sqrt</code>, which ajust to size of its argument:<br />
+<code class="highlighter-rouge">\sqrt{x^3}</code> is $\sqrt{x^3}$ and <code class="highlighter-rouge">\sqrt[3]{x^5}</code> is $\sqrt[3]{x^5}$. For complicated expressions, consider using <code class="highlighter-rouge"><span class="p">{</span><span class="err">..</span><span class="p">}</span><span class="err">^</span><span class="p">{</span><span class="err">x/y</span><span class="p">}</span></code> instead. Example: $\left(\frac{x^3+y}{z - 1}\right)^{3\over4}$ or $ \sqrt[4]{ \left({x^3+y} \over {z-1} \right)^3}$</p>
+
+<h4 id="special-functions">Special functions</h4>
+<p>“lim”, “sin”, “max”, “ln” and so on are normally set in roman font. Use: <code class="highlighter-rouge">\lim</code>, <code class="highlighter-rouge">\sin</code>, etc.<br />
+Example: <code class="highlighter-rouge">\lim_{x\to0}</code> is $\lim_{x\to 0}$</p>
+
+<h4 id="accents-and-diacritial-marks">Accents and diacritial marks</h4>
+<p><code class="highlighter-rouge">\hat x</code> is: $\hat x$, <code class="highlighter-rouge">\widehat</code> for larger formula: $\widehat {xy}$ <br />
+<code class="highlighter-rouge">\bar</code> is: $\bar x$, or <code class="highlighter-rouge">\overline</code> is $\overline{xyz}$<br />
+<code class="highlighter-rouge">\vec</code> is: $\vec x$, or <code class="highlighter-rouge">\overrightarrow</code> is $\overrightarrow{xyz}$.</p>
+
+<h4 id="matrices">Matrices</h4>
+<p>Use <code class="highlighter-rouge">$$\begin{matrix} ... \end{matrix}</code>. In between the begin and end, put the matrix elements. End each matrix row with <code class="highlighter-rouge">\\</code>. seperate each matrix column element with <code class="highlighter-rouge">&amp;</code>.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>$$
+    \begin{pmatrix}
+     1 &amp; x &amp; x^2 \\
+     1 &amp; y &amp; y^2 \\
+     1 &amp; z &amp; z^2 \\ 
+    \end{pmatrix}
+$$
+
+</code></pre>
+</div>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{pmatrix}
+     1 & x & x^2 \\
+     1 & y & y^2 \\
+     1 & z & z^2 \\ 
+    \end{pmatrix} %]]></script>
+
+<p>To add brackets, either use <code class="highlighter-rouge">\left, \right</code> or replace the <em>matrix</em> with:<br />
+<code class="highlighter-rouge">pmatrix</code> for<br />
+<script type="math/tex">% <![CDATA[
+\begin{pmatrix} 1&2 \\ 3&4 \end{pmatrix} %]]></script><br />
+<code class="highlighter-rouge">bmatrix</code> for<br />
+<script type="math/tex">% <![CDATA[
+\begin{bmatrix}1&2 \\ 3&4\end{bmatrix} %]]></script><br />
+<code class="highlighter-rouge">Bmatrix</code> for<br />
+<script type="math/tex">% <![CDATA[
+\begin{Bmatrix}1&2 \\ 3&4\end{Bmatrix} %]]></script><br />
+<code class="highlighter-rouge">vmatrix</code> for<br />
+<script type="math/tex">% <![CDATA[
+\begin{vmatrix}1&2 \\ 3&4\end{vmatrix} %]]></script><br />
+<code class="highlighter-rouge">Vmatrix</code> for<br />
+<script type="math/tex">% <![CDATA[
+\begin{Vmatrix}1&2 \\ 3&4\end{Vmatrix} %]]></script>.</p>
+
+<p>Use <code class="highlighter-rouge">\cdots</code> $\cdots$, <code class="highlighter-rouge">\ddots</code> $\ddots$, <code class="highlighter-rouge">\vdots</code> $\vdots$ when want to omit some the entries:</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{Vmatrix}
+1 & a_1 & a_1^2 & \cdots & a_1^n \\
+1 & a_2 & a_2^2 & \cdots & a_2^n \\
+\vdots & \vdots & \vdots & \ddots & \vdots \\
+1 & a_m & a_m^2 & \cdots & a_m^n
+\end{Vmatrix} %]]></script>
+
+<p>For “Augmented” matrics, put parentheses or brackets around a suitably-formatted tables, for examples:</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\left[
+  \begin{array}{cc|c}
+  1 & 2 & 3\\
+  4 & 5 & 6
+  \end{array}
+\right] %]]></script>
+
+<p>is produced by:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>$$
+\left[
+  \begin{array}{cc|c}
+  1 &amp; 2 &amp; 3\\
+  4 &amp; 5 &amp; 6
+  \end{array}
+\right]
+$$
+</code></pre>
+</div>
+
+<p>For small inline matrics, using: <code class="highlighter-rouge">\bigl( \begin{small matrix}     ....   \end{smallmatrix} \bigr)</code>. For example:<br />
+matrix: $\bigl[ \begin{smallmatrix} 1 &amp; 2 \\ 3 &amp; 4 \end{smallmatrix} \bigr]$  is produced by:</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>$\bigl[ \begin{smallmatrix} 1 &amp; 2 \\ 3 &amp; 4 \end{smallmatrix}\bigr]$
+</code></pre>
+</div>
+
+<h4 id="definitions-by-cases-piecewise-functions">Definitions by cases piecewise functions</h4>
+
+<p>Use <code class="highlighter-rouge">\begin{cases} ..\end{cases}</code>. For each case with a <code class="highlighter-rouge">\\</code>, and use <code class="highlighter-rouge">&amp;</code> before parts that should be aligned.</p>
+
+<p>For example, you get this:</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+f(n) = 
+\begin{cases}
+ n/2, & \text{if $n$ is even} \\
+ 3n + 1, &\text{if $n$ is odd}
+\end{cases} %]]></script>
+
+<p>By writing this:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>f(n) = 
+\begin{cases}
+  n/2, &amp; \text{if $n$ is even}\\
+  3n + 1, &amp; \text{if $n$ is odd}
+\end{cases}
+</code></pre>
+</div>
+
+<p>The brace can be moved to the right:</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\left.
+\begin{array}{1}
+\text{if $n$ is even: } & n/2\\
+\text{if $n$ is odd: } & 3n + 1
+\end{array}
+\right\}
+= f(n) %]]></script>
+
+<p>by writing this:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>\left.
+  \begin{array}{1}
+    \text{if $n$ is even: } &amp; n/2\\
+    \text{if $n$ is odd: } &amp; 3n + 1
+  \end{array}
+\right\}
+= f(n)
+</code></pre>
+</div>
+
+<p>To get a larger vertical space between cases we can use <code class="highlighter-rouge">\\[2ex]</code> instead of <code class="highlighter-rouge">\\</code>. For example you get this:</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+f(n) = 
+\begin{cases}
+  \frac{n}{2}, & \text{if n is even} \\[2ex]
+  3n + 1, & \text{if n is odd}
+\end{cases} %]]></script>
+
+<p>By writing this:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>f(n) = 
+\begin{cases}
+  \frac{n}{2}, &amp; \text{if n is even} \\[2ex]
+  3n + 1, &amp; \text{if n is odd}
+\end{cases}
+</code></pre>
+</div>
+
+<h4 id="arrays">Arrays</h4>
+
+<p>It is often easier to read table formatted in Math Jax rather than plain text or<br />
+fixed width font. Array and tables are created with the array evironment. Just ater <code class="highlighter-rouge">\begin {array}</code> the format of each column should be listed, use <code class="highlighter-rouge">c</code> for a center column, <code class="highlighter-rouge">r</code> for right aligned, <code class="highlighter-rouge">l</code> for left aligned and a <code class="highlighter-rouge">|</code> for vertical line. body is a matrices, cells is separated by <code class="highlighter-rouge">&amp;</code> and rows is broken using <code class="highlighter-rouge">\\</code>. A horizontal line spanning the array can be placed before the current line with <code class="highlighter-rouge">hline</code>.</p>
+
+<p>For example,</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{array}{c|lcr}
+n & \text{Left} & \text{Center} & \text{Right} \\
+\hline
+1 & 0.24 & 1 & 125 \\
+2 & -1 & 189 & -8 \\
+3 & -20 & 2000 & 1+10i
+\end{array} %]]></script>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>$$
+\begin{array}{c|lcr}
+n &amp; \text{Left} &amp; \text{Center} &amp; \text{Right} \\
+\hline
+1 &amp; 0.24 &amp; 1 &amp; 125 \\
+2 &amp; -1 &amp; 189 &amp; -8 \\
+3 &amp; -20 &amp; 2000 &amp; 1+10i
+\end{array}
+$$
+</code></pre>
+</div>
+
+<h4 id="colors">Colors</h4>
+<p>Named colors are browser dependent. if oa browser dont known particular color name, text will rendered as black.</p>
+
+<p>Example:</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{array}{c|r}
+  \text{color code} & \text{rendered text} \\
+  \hline
+  \text{black} & \color{black}{text} \\
+  \text{red}  & \color{red}{text} \\
+  \text{blue}  & \color{blue}{text} \\
+  \text{green}  & \color{green}{text}
+\end{array} %]]></script>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>$$
+\begin{array}{c|r}
+  \text{color code} &amp; \text{rendered text} \\
+  \hline
+  \text{black} &amp; \color{black}{text} \\
+  \text{red}  &amp; \color{red}{text} \\
+  \text{blue}  &amp; \color{blue}{text} \\
+  \text{green}  &amp; \color{green}{text}
+\end{array}
+$$
+</code></pre>
+</div>
+
+<h4 id="complex">Complex</h4>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>\underset{j=1}{\overset{\infty}{\LARGE\mathrm K}}\frac{a_j}{b_j}=\cfrac{a_1}{b_1+\cfrac{a_2}{b_2+\cfrac{a_3}{b_3+\ddots}}}
+</code></pre>
+</div>
+
+<p>To get:</p>
+
+<script type="math/tex; mode=display">\underset{j=1}{\overset{\infty}{\LARGE\mathrm K}}\frac{a_j}{b_j}=\cfrac{a_1}{b_1+\cfrac{a_2}{b_2+\cfrac{a_3}{b_3+\ddots}}}</script>
+
+<h4 id="commutative-diagrams">Commutative diagrams</h4>
+<div class="highlighter-rouge"><pre class="highlight"><code>$\require{AMScd}$
+\begin{CD}
+    A @&gt;a&gt;&gt; B\\
+    @V b V V= @VV c V\\
+    C @&gt;&gt;d&gt; D
+\end{CD}
+</code></pre>
+</div>
+
+<p>to get this diagram:</p>
+
+<p>$\require{AMScd}$
+<script type="math/tex">\begin{CD}
+    A @>a>> B\\
+    @V b V V= @VV c V\\
+    C @>>d> D
+\end{CD}</script></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>@&gt;&gt;&gt; is used for arrow right
+
+@&lt;&lt;&lt; is used for arrow left
+
+@VVV is used for arrow down
+
+@AAA is used for arrow up
+
+@= is used for horizontal double line
+
+@| is used for vertical double line
+
+@. is used for no arrow
+</code></pre>
+</div>
+
+<p>Another example:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code> \begin{CD}
+        A @&gt;&gt;&gt; B @&gt;{\text{very long label}}&gt;&gt; C \\
+        @. @AAA @| \\
+        D @= E @&lt;&lt;&lt; F
+    \end{CD}
+</code></pre>
+</div>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{CD}
+        A @>>> B @>{\text{very long label}}>> C \\
+        @. @AAA @| \\
+        D @= E @<<< F
+    \end{CD} %]]></script>
+
+<h4 id="tags--references">Tags &amp; References</h4>
+<p>For longer calculations or referring to other post’s result, it is convenient to use the tagging, labelling, referencing system. To tag an equations use <code class="highlighter-rouge">\tag{your tag}</code>, and if you want to refer to that tag latter on, add <code class="highlighter-rouge">\label{some label}</code> right after the <code class="highlighter-rouge">\tag</code>. It is not necessary that <em>your tag</em> and <em>some label</em> are the same, but it usally is more convenient to do so:</p>
+
+<script type="math/tex; mode=display">a:= x^2 - y^3 \tag{1}\label{1}</script>
+
+<p>In other to refer to an equation, just use <code class="highlighter-rouge">\eqref{somelabel}</code></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>$$ a+y^3 \stackrel{\eqref{1}}= x^2 $$
+</code></pre>
+</div>
+
+<script type="math/tex; mode=display">a + y^3 \stackrel{\eqref{1}}= x^2</script>
+
+<hr />
+
+<script type="math/tex; mode=display">x^5 - y = 1\tag{*}\label{*}</script>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>$$
+x^5 - y = 1\tag{*}\label{*}
+$$
+</code></pre>
+</div>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>Equations are usually referred to as $\eqref{*}$, but you can also use $\ref{*}$.
+</code></pre>
+</div>
+
+<p>Equations are usually referred to as <script type="math/tex">\eqref{*}</script>, but you can also use <script type="math/tex">\ref{*}</script>.</p>
+
+<h4 id="limits">Limits</h4>
+
+<p>To make a limit (like <script type="math/tex">\lim\limits_{x \to 1} \frac{x^2}{x-1}</script>), use this syntax:</p>
+
+<p>First, start off with <code class="highlighter-rouge">$\lim</code>. This renders as lim. The backslash is there to prevent things like <em>lim</em>, where the lettrs are slanted.</p>
+
+<p>The Seconds, add <code class="highlighter-rouge">\limits_{x \to 1}</code> inside. The code now looks like: <code class="highlighter-rouge">$\lim \limits_{ x \to 1}$</code>, and renders as $\lim \limits_{x \to} 1$. The <code class="highlighter-rouge">\to</code> inside makes the right arrow, rendered as $\to$. The <code class="highlighter-rouge">_</code> makes  the $x \to1 $ go underneath the lim. Finally, the pair of curly braces <code class="highlighter-rouge"><span class="p">{}</span></code> makes sure that $x \to 1$ is treated as a whole object and not two separete things.</p>
+
+<p>Lastly, add the function you want to apply the limit to. To make the limit mentioned above, simply use <code class="highlighter-rouge">$\lim \limits_{x \to 1} \frac{x^2}{x-1}$</code></p>
+
+<p>And that is how you make a limit using MathJax.</p>
+
+<h4 id="sequnce-of-equations-with-align">Sequnce of equations with align</h4>
+
+<p>To produce this:</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{align}
+  v + w = 0 && \text{Given} \tag 1 \\
+  -w = -w + 0 && \text{additive identity} \tag 2 \\
+  -w + 0 = -w + (v + w) && \text{equations $(1)$ and $(2)$}  
+\end{align} %]]></script>
+
+<p>write this:</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>
+$$
+\begin{align}
+  v + w = 0 &amp;&amp; \text{Given} \tag 1 \\
+  -w = -w + 0 &amp;&amp; \text{additive identity} \tag 2 \\
+  -w + 0 = -w + (v + w) &amp;&amp; \text{equations $(1)$ and $(2)$}  
+\end{align}
+$$
+</code></pre>
+</div>
+
+<h4 id="highlighting-equation">Highlighting equation</h4>
+<p>To highlighting an equation, use <code class="highlighter-rouge">\bbox</code> can be used. E.g,</p>
+
+<script type="math/tex; mode=display">\bbox[black,5px]
+{
+  e^x = \lim \limits_{n \to \infty} \left(1 + \frac{x}{n}\right)^n
+}</script>
+
+<p>is produced by:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>$$ \bbox[black,5px]
+{
+  e^x = \lim \limits_{n \to \infty} \left(1 + \frac{x}{n}\right)^n
+}
+$$
+</code></pre>
+</div>
+
+<p>To add border, use:</p>
+
+<script type="math/tex; mode=display">\bbox[5px,border:2px solid red]
+{
+  e^x = \lim\limits_{n \to \infty} \left( 1 + \frac{x}{n}\right)^n \qquad (2)
+}</script>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>$$
+\bbox[5px,border:2px solid red]
+{
+  e^x = \lim\limits_{n \to \infty} \left( 1 + \frac{x}{n}\right)^n \qquad (2)
+}
+$$
+</code></pre>
+</div>
+
+<h4 id="degree-symbol">Degree symbol</h4>
+
+<p>The degree symbol for angles is not <code class="highlighter-rouge">^\circ</code>. For example<br />
+$90^\circ$ is rendered by <code class="highlighter-rouge">90^\circ</code>.</p>
+
+<p><a href="https://en.wikibooks.org/wiki/LaTeX/Mathematics">Learn more LaTeX Mathematics commands</a></p>
+
+    </div>
+  
+    <!-- Previous / Next Buttons -->
+    <div class="pagenav">
+		
+        <div class="wrapper" id="left">
+          <small><b>Previous</b> Sep 20, 2017</small>
+          <br>
+          <a class="no-hov" href="/2017/09/markdown">&laquo; Markdown cheatsheet - quick reference</a>
+        </div>
+		
+		
+		</div>
+
+		<!-- Disqus comments view -->
+		
+</article>
+
+    </div>
+    <footer class="c-page__footer">
+    <p>&copy; dungntnew 2017</p>
+    <p><a href="https://twitter.com/dungntnew">Twitter</a><span class="u-separate"></span><a href="https://github.com/dungntnew">Github</a></p>
+</footer>
+
+</div>
+
+        </main>
+    
+    </body>
+</html>

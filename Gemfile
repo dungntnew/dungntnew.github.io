@@ -4,7 +4,7 @@ gem "rake"
 gem "jekyll", "3.5.2"
 gem "html-proofer"
 gem "rb-fsevent", "0.9.8"
-
+gem "redcarpet"
 group :jekyll_plugins do
       gem 'jekyll-livereload'
 end
