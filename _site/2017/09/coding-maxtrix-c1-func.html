@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Coding Maxtrix - Chapter 0 Function - AI Research | technical blogs</title>
+    <meta name="description" content="The Function and other mathematical and computational preliminaries">
+
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Mono|Roboto:300,400,900,400italic' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="canonical" href="http://localhost:4000/2017/09/coding-maxtrix-c1-func">
+    <link rel="alternate" type="application/rss+xml" title="AI Research | technical blogs" href="http://localhost:4000/feed.xml">
+    
+      <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    TeX: {
+      equationNumbers: {
+        autoNumber: "AMS"
+      }
+    },
+    tex2jax: {
+      inlineMath: [ ['$','$'], ['\(', '\)'] ],
+      displayMath: [ ['$$','$$'] ],
+      processEscapes: true,
+    }
+  });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+</script>
+
+    
+<script src="http://127.0.0.1:35729/livereload.js"></script></head>
+
+    <body>
+        <main class="u-container">
+        <div class="c-page">
+    <header class="c-page__header">
+    <h1><code>AI Research | technical blogs</code></h1>
+
+    
+    <p>
+        <a href="/">Home</a><span
+          class="u-separate"></span> <a href="/projects/">Projects</a><span class="u-separate"></span> <a href="/about/">About</a><span class="u-separate"></span><a href="/feed.xml">RSS</a>
+    </p>
+</header>
+
+    <div class="c-page__main">
+    <article class="c-article">
+    <header class="c-article__header">
+        <h1 class="c-article__title">Coding Maxtrix - Chapter 0 Function</h1>
+        <p class="c-article__time"><time datetime="2017-09-26T00:00:00+09:00" itemprop="datePublished">Sep 26, 2017</time></p>
+    </header>
+    
+    <!-- Post Tags -->
+    <ul class="c-tags">
+    
+      <li class="c-tag">linear-algebra</li>
+    
+      <li class="c-tag">function</li>
+    
+    </ul>
+
+    <div class="c-article__main">
+        <h2 id="the-function-and-other-mathematical-and-computational-preliminaries">The Function and other mathematical and computational preliminaries</h2>
+
+<h4 id="set-terminology-and-notation">Set terminology and notation</h4>
+
+<p>Set is a collection of mathematical objects in which each object is considered to occur at most one. The objects belonging to a set are its <em>elements</em>. We use curly braces to indicate a set specified by explicitly enumerating its elements. For example, $\heartsuit\spadesuit\clubsuit\diamondsuit$ is the set of suits in traditional deck of cards.  The order in which elements are listed is not signification; a set imposes no order among its elements.<br />
+  The symbol $\in$ is used to indicate that an object belongs to a set (equivalently, that the set <em>contains</em> the object). For example 
+  $\heartsuit \in {\heartsuit,\spadesuit,\clubsuit\diamondsuit}$.<br />
+  One set $S_1$ is <em>contained in</em> another $S_2$ written $S_1 \subseteq S_2$ if every element of $S_1$ belongs to $S_2$. Two sets are equal consists of two steps: (1) prove the first set is contained in the sencond, and (2) prove the sencond is contained in the first.<br />
+  A set can be infinite. For example set R, which consists of all real numbers, and the set C which consists of all complex numbers.<br />
+  If a set S is not infinite, we use $|S|$ to denote its <em>candinality</em>, the number of elements it contains. For example, the set of suits has candinality is 4.</p>
+
+<h4 id="cartesian-product">Cartesian product</h4>
+
+<table>
+  <tbody>
+    <tr>
+      <td>That is, for sets A and B, the <strong>Cartesian product</strong> A x B is the set of all <em>ordered pairs</em> (a, b) where $a \in A$ and $b \in B$. <strong>Products</strong> can be specified using set-builder notation for example. A = {x, y, z}, B = {1, 2, 3} so A x B is a sets consists all pairs {(x, 1), (x, 2), (x, 3), (y, 1), (y, 2), (y, 3), (z, 1), (z, 2), (z, 3)}. The candinality of A x B  = $</td>
+      <td>A</td>
+      <td>x</td>
+      <td>B</td>
+      <td>= 9$.</td>
+    </tr>
+  </tbody>
+</table>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{array}{|c|c|c|c|}
+\text{A B} & 1 & 2 & 3 \\
+x & (x, 1) & (x, 2) & (x, 3) \\
+y & (y, 1) & (y, 2) & (y, 3) \\
+z & (z, 1) & (z, 2) & (z, 3) \\ 
+\end{array} %]]></script>
+
+<h4 id="the-function">The Function</h4>
+<p>The function is a rule that, for each element in some <em>set</em> D of posible inputs, assigns a posible output. The output is said to the <em>image</em> of the input under the given function.</p>
+
+<p>and the input is a <em>pre-image</em> of the output. The set <em>D</em> of posible inputs is called the <em>domain</em> of the function.<br />
+  Formally, a <em>function</em> is a (possiby infinite) set of pairs <em>(a, b)</em> no two of which share the same first entry.</p>
+
+<hr />
+<p><strong>Example</strong>: the doubling function with domain {1, 2, 3,..} is {(1, 2), (2, 4), (3, 6),..}</p>
+
+<hr />
+<p><strong>Example</strong>: The multiplication function with domain {1, 2, 3..} x {1, 2, 3, ..} looks something like this:<br />
+{((1, 1), 1), ((1, 2), 2), ((1, 3), 3), ..((2, 1), 2), ((2, 2), 4), ((2, 3), 6), ..}</p>
+
+<p>For a function named <em>f</em>, the image of <em>q</em> under <em>f</em> denoted by <em>f(q)</em>. If <em>r = f(q)</em>, we say that <em>q maps to r under f</em>. The notaion for “q maps to r” is $q \mapsto r$. Its is convenient when specifying a function to specify a <em>co-domain</em> for the function.The co-domain is a set from which the function’s outputvalues are chosen. Note that one has some leeway in choosing the co-domain since not all of its members need to be outputs.<br />
+The notation</p>
+
+<script type="math/tex; mode=display">f: D \rightarrow F</script>
+
+<p>mean that <em>f</em> is a function whose domain is the set <em>D</em> and whose <em>con-domain</em> (the set of possible output) is the set <em>F</em>. More briefly: “a function from <em>D</em> to <em>F</em>” or “a function that maps <em>D</em> to <em>F</em>”.</p>
+
+<hr />
+<p><strong>Example</strong> Caesar was said to have sued a cryptosystem in which each letter was replaced with the one three steps forwad in alphabet(warapping around for X, Y, Z). Thus the plain-text MATRIX would be encrypted as the cyphertex PDWULA. The function that maps each plain text letter to its cyphertex replacement bould be written as:</p>
+
+<script type="math/tex; mode=display">A \mapsto D, B\mapsto E,C \mapsto F ..</script>
+
+<p>This function’s domain and co-domain are both the alphabet {A, B, .., Z}</p>
+
+<p>The <em>image</em> of a function <em>f</em> is set of images of all domain lements. That is, the image of <em>f</em> is the set of elements of the co-domain that actually occur as outputs. For example, the image of Caesar’s encryption function is the entrie alphabet, and the image of cosine funciton is set of numbers between -1 and 1.</p>
+
+<h4 id="functions-versus-procedures-versus-computation-problems">Functions versus procedures, versus computation problems.</h4>
+
+<p>A <em>procedure</em> is a precise description of computation; it accept <em>inputs</em> called <em>arguments</em> and produces an <em>output</em> called the <em>return value</em></p>
+
+<p>Example:</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>def mul(q, p): return q * p
+</code></pre>
+</div>
+
+<p>A <em>computational problem</em> is an input-output specification that procedure might be required to satisfy.</p>
+
+<p>Example:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>- input: pair of (p, q) of integers greater than 1
+
+- output: the product of p, q
+</code></pre>
+</div>
+
+<h4 id="notation-for-the-set-of-functions-with-given-domain-and-co-domain">Notation for the set of functions with given domain and co-domain</h4>
+
+<p>For sets <em>D</em> and <em>F</em>, we use the notation $F^D$ to denote all functions from <em>D</em> to <em>F</em>.<br />
+For any finite sets <em>D</em> and <em>F</em>, we have: $|D^F| = |D|^{|F|}$</p>
+
+<h4 id="identity-function">Identity function</h4>
+
+<p>From any domain <em>D</em>, there is a function $id_D: D \to D$ that called the <em>identity function</em> for D, defined by:</p>
+
+<script type="math/tex; mode=display">id_D(d) = d</script>
+
+<p>for every $d\in D$.</p>
+
+<h4 id="composition-of-functions">Composition of functions</h4>
+
+<p>The operation <em>functional composition</em> combines two functions to get new function. We will later deine maxtrix multiplication in terms of function composition. Given two functions $f: A\to B$ and $g: B\to C$ , the function $g \circ f$, called the composition of <em>g</em> and <em>f</em> , is function whose domain is <em>A</em> and its co-domain is <em>C</em>. It defined by the rule:</p>
+
+<script type="math/tex; mode=display">(g \circ f)(x) = g(f(x))</script>
+
+<p><strong>Example</strong> Define the function</p>
+
+<p><script type="math/tex">f: \{A, B, C, D, ..., Z\}  \rightarrow \{0, 1, 2, 3, .., 25\}</script>
+by</p>
+
+<p><script type="math/tex">A\mapsto 0, B\mapsto 1, C\mapsto 2, ...,Z\mapsto 25</script>
+Define function <em>g</em> as follows. The domain and co-domain of <em>g</em> are both the set {0, 1, …, 25} , and $g(x) = (x + 3) \mod 26$. For third function <em>h</em>, the domain is {0, ..25} and the co-domain is {A, .., Z} and $0\mapsto A, 1\mapsto B, etc$. Then $h\circ(g\circ f)$ is function that implements the Caesar cypher as descripted in above.</p>
+
+<p>For building intuition, we can use a diagram to represent compostion of functions with finite domains and co-domains.</p>
+
+<h4 id="associativity-of-function-composition">Associativity of function composition</h4>
+<p>The composition of function is <em>associative</em>:</p>
+
+<p>For function <em>f</em>, <em>g</em>, <em>h</em>,</p>
+
+<script type="math/tex; mode=display">h\circ (g\circ f) = (g\circ h)\circ f</script>
+
+<p>So:</p>
+
+<script type="math/tex; mode=display">h \circ (g \circ f) = h\circ g \circ f</script>
+
+<h4 id="function-inverse">Function inverse</h4>
+<p>For example, who recived a cyphertex: PDWULA. to obtain the plaintext (MATRIX), we must find for each letter in cyphertex the letter that maps to it under encryption function. That is, we must find the letter that maps to P (namely M), letter that maps to D (namely A) and so on. In doing, we can be seen to applying <em>another</em> function to each of letters of cyphertex, specifically the function that reverses the effect of the encryption function. This function is said to be <em>functional inverse</em> of encryption function.</p>
+
+<p>For antother example, consider the functions <em>f</em> and <em>h</em> in Example above, <em>f</em> is function from {A, B, .., Z} to {0, 1, ..25} and <em>h</em> is function from {0, 1, 2..} to {A, B, C, .., Z}. Each one reverses the effect of the other. That is, $h\circ f$ is the identity function on {A, .. Z} and $f\circ h$ is identity function on {0, 1, .., 25}. We say that <em>h</em> is function inverse of <em>f</em>. There are no reason for privilegin <em>f</em>, however; <em>f</em> is function inverse of <em>h</em> as well.</p>
+
+<p>In general,</p>
+
+<p><strong>Defination 0.3.13:</strong> we say that functions <em>f</em> and <em>g</em> are <em>function inverses</em> of each other if</p>
+<ul>
+  <li>$f\circ g$ is defined and is the identity function on the domain of <em>g</em>, and</li>
+  <li>$g\circ f$ is defined and is the identity function on the domain of <em>f</em>.</li>
+</ul>
+
+<p>Not every function has an inverse. A function that has an inverse is said to be <em>invertible</em>.</p>
+
+<p><strong>Definition 0.3.14</strong>: Consider a function $f: D\rightarrow F$. We say that <em>f</em> is <em>one-to-one</em> if for every $x, y \in D, f(x) = f(y)$ implies $x = y$ . We say that <em>f</em> is <em>onto</em> if, for every $z \in F$, there exists $x \in D$ such that $f(x) = z$.</p>
+
+<p><strong>Lemma 0.3.16</strong>: An invertible function is one-to-one.
+<strong>Lemma 0.3.17</strong>: An invertible function is onto.</p>
+
+<p><strong>Theorem 0.3.18 (Function Invertibility Theorem)</strong>: A function is invertible if it is one-to-one and onto.</p>
+
+<p><strong>Lemma 0.3.19</strong> Every function has at most one function inverse.</p>
+
+<h4 id="invertibility-of-the-composition-of-invertible-functions">Invertibility of the composition of invertible functions</h4>
+
+<p><strong>Lemma 0.3.20</strong>: If <em>f</em> and <em>g</em> are invertible functions and $f\circ g$ exists then $f\circ g$ is invertible and ${(f\circ g)}^{-1} = g^{-1}\circ f^{-1}$.</p>
+
+<p><strong>Example</strong> The following figure shows two invertible functions is <em>f</em> and <em>g</em> their composition of this is: $f \circ g$.</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{array}{c c | c}
+
+1 \overset{g}{\mapsto} A & A \overset{f}{\mapsto} p & 1 \overset{f\circ g}{\mapsto} p \\
+
+2 \overset{g}{\mapsto} B & B \overset{f}{\mapsto} q & 2 \overset{f\circ g}{\mapsto} q \\
+
+
+3 \overset{g}{\mapsto} C & C \overset{f}{\mapsto} r & 3 \overset{f\circ g}{\mapsto} r
+
+\end{array} %]]></script>
+
+<p>The inverse of $f\circ g$ will be $(f \circ g)^{-1}$ figure as bellow</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{array}{c c|c}
+p \xrightarrow{f^{-1}} A & A \xrightarrow{g^{-1}} 1&  p \xrightarrow{g^{-1}\circ f^{-1}} 1
+\\
+q \xrightarrow{f^{-1}} B & B \xrightarrow{g^{-1}} 2&  q \xrightarrow{g^{-1}\circ f^{-1}} 2
+\\
+r \xrightarrow{f^{-1}} C & C \xrightarrow{g^{-1}} 3&  r \xrightarrow{g^{-1}\circ f^{-1}} 3
+\end{array} %]]></script>
+
+<h2 id="probability">Probability</h2>
+
+<h4 id="probability-distributions">Probability distributions</h4>
+
+<p>A function $Pr(.)$ from a finite domain $\Omega$ to the set $R^+$ of nonnegatove reals is a <em>discrete probability distribution</em> if $\sum_{\omega \in \Omega}Pr(\omega)=1$. the elements of the domains as <em>outcomes</em>. The image of an outcome under PR(.) is called <em>probability</em> of the outcome. The probabilites are supposed to be proportional to <em>relative likelihoods</em> of outcomes. The we use the term <em>likelihood</em> to mean the common sense notion and probability mean the mathematical abstraction of it.</p>
+
+<h5 id="uniform-distributions">Uniform distributions</h5>
+<p>All the outcoms are equally likely, so they are all assigned the same probabilites. In such a case, we say that the probability distribution is <em>uniform</em>.</p>
+
+<p><strong>Example</strong>: To model the flipping of a single coin, $\Omega = {heads, tails}$. We assume that the two outcomes are equally likely, so we assign them the same probability: Pr(heads) = Pr(tails). Since we require the sum to be 1, so Pr(heads) = Pr(tails) = 1/2. In Python, we would be write the probabilty distributions as:</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>&gt;&gt;&gt; Pr = {heads: 1/2, tails: 1/2}
+</code></pre>
+</div>
+
+<p><strong>Example</strong> To model the roll of single die, $\Omega={1, 2, 3, 4, 5, 6}$ and Pr(1) = Pr(2) = .. Pr(6) = 1/6. In Python we can write:</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>&gt;&gt;&gt; Pr = {1: 1/6, 2: 1/6, 3: 1/6, 4: 1/6, 5: 1/6, 6: 1/6}
+</code></pre>
+</div>
+
+<p><strong>Example</strong> To model the flipping of two coins, a penny and a nikel. $\Omega = {HH, HT, TH, TT}$, and each of the outcomes has same probability is 1/4. In Python:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&gt;&gt;&gt; Pr = { ('H', 'H'): 1/4, ('H', 'T'): 1/4, ('T', 'H'): 1/4, ('T', 'T'): 1/4 }
+</code></pre>
+</div>
+
+<h5 id="nonuniform-distributions">Nonuniform distributions</h5>
+
+<p>Different outcomes have different probabilities.</p>
+
+<p><strong>Example 0.4.4</strong> Let $\Omega = {A, B, ..Z}$ and assign probabilities according to how likely you are to draw letter at the begining of a Scrabble game. The likelihood of drawing an R is twice that of drawing a G, thrice that of drawing a C and six times drawing Z. We need to assign probabilities that are proportional to these likelihoods. We must have some number <em>c</em> such that. for each letter, the probability of drawing that letter should be <em>c</em> times the number of copies of that letter.</p>
+
+<script type="math/tex; mode=display">Pr[\text{drawing letter X}] = c \cdot \text{number of copies of letter X}</script>
+
+<p>Summing over all leters, we get</p>
+
+<script type="math/tex; mode=display">1 = c\cdot \text{total number of tiles}</script>
+
+<p>Since the total number of tiles is 95, we define <em>c = 1/95</em> . The probability of drawing an E is therefore 12/95, which about .126, the probabiluty of drawing an A is 9/95, and so son. In Python, the probability distribution is</p>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="s">'A'</span><span class="p">:</span><span class="mi">9</span><span class="o">/</span><span class="mi">95</span><span class="p">,</span> <span class="s">'B'</span><span class="p">:</span><span class="mi">2</span><span class="o">/</span><span class="mi">95</span><span class="p">,</span> <span class="s">'C'</span><span class="p">:</span><span class="mi">2</span><span class="o">/</span><span class="mi">95</span><span class="p">,</span> <span class="s">'D'</span><span class="p">:</span><span class="mi">4</span><span class="o">/</span><span class="mi">95</span><span class="p">,</span> <span class="s">'E'</span><span class="p">:</span><span class="mi">12</span><span class="o">/</span><span class="mi">95</span><span class="p">,</span> <span class="s">'F'</span><span class="p">:</span><span class="mi">2</span><span class="o">/</span><span class="mi">95</span><span class="p">,</span> <span class="s">'G'</span><span class="p">:</span><span class="mi">3</span><span class="o">/</span><span class="mi">95</span><span class="p">,</span> <span class="s">'H'</span><span class="p">:</span><span class="mi">2</span><span class="o">/</span><span class="mi">95</span><span class="p">,</span> <span class="s">'I'</span><span class="p">:</span><span class="mi">9</span><span class="o">/</span><span class="mi">95</span><span class="p">,</span> <span class="s">'J'</span><span class="p">:</span><span class="mi">1</span><span class="o">/</span><span class="mi">95</span><span class="p">,</span> <span class="s">'K'</span><span class="p">:</span><span class="mi">1</span><span class="o">/</span><span class="mi">95</span><span class="p">,</span> <span class="s">'L'</span><span class="p">:</span><span class="mi">1</span><span class="o">/</span><span class="mi">95</span><span class="p">,</span> <span class="s">'M'</span><span class="p">:</span><span class="mi">2</span><span class="o">/</span><span class="mi">95</span><span class="p">,</span> <span class="s">'N'</span><span class="p">:</span><span class="mi">6</span><span class="o">/</span><span class="mi">95</span><span class="p">,</span> <span class="s">'O'</span><span class="p">:</span><span class="mi">8</span><span class="o">/</span><span class="mi">95</span><span class="p">,</span> <span class="s">'P'</span><span class="p">:</span><span class="mi">2</span><span class="o">/</span><span class="mi">95</span><span class="p">,</span> <span class="s">'Q'</span><span class="p">:</span><span class="mi">1</span><span class="o">/</span><span class="mi">95</span><span class="p">,</span> <span class="s">'R'</span><span class="p">:</span><span class="mi">6</span><span class="o">/</span><span class="mi">95</span><span class="p">,</span> <span class="s">'S'</span><span class="p">:</span><span class="mi">4</span><span class="o">/</span><span class="mi">95</span><span class="p">,</span> <span class="s">'T'</span><span class="p">:</span><span class="mi">6</span><span class="o">/</span><span class="mi">95</span><span class="p">,</span> <span class="s">'U'</span><span class="p">:</span><span class="mi">4</span><span class="o">/</span><span class="mi">95</span><span class="p">,</span> <span class="s">'V'</span><span class="p">:</span><span class="mi">2</span><span class="o">/</span><span class="mi">95</span><span class="p">,</span> <span class="s">'W'</span><span class="p">:</span><span class="mi">2</span><span class="o">/</span><span class="mi">95</span><span class="p">,</span> <span class="s">'X'</span><span class="p">:</span><span class="mi">1</span><span class="o">/</span><span class="mi">95</span><span class="p">,</span> <span class="s">'Y'</span><span class="p">:</span><span class="mi">2</span><span class="o">/</span><span class="mi">95</span><span class="p">,</span> <span class="s">'Z'</span><span class="p">:</span><span class="mi">1</span><span class="o">/</span><span class="mi">95</span><span class="p">}</span> 
+</code></pre>
+</div>
+
+<h4 id="events-and-adding-probabilities">Events and adding probabilities</h4>
+
+<p>In Example 0.4.4, what is probability of drawing a <em>vowel</em> from the bag ?<br />
+A set of outcomes is called an <em>event</em>. For example, the event of drawing a vowel is represented by the set: {A, E, I, O, U}.</p>
+
+<p><strong>Principle 0.4.5 (Fundamental Principle of Probability Theory)</strong>: The probability of an event is sum of probabilities of outcomes making up event.</p>
+
+<p>Accordings to this principle, the probability of a vowel is:</p>
+
+<script type="math/tex; mode=display">9/95 + 12/95 + 9/95 + 8/95 + 4/95</script>
+
+<p>Which is 42/95</p>
+
+<h4 id="applying-a-function-to-a-random-input">Applying a function to a random input</h4>
+
+<p>When applying a function to an radom input. Since the input to the function is random, the output should also be considered random. Given the probability distribution of the input and a specification of the function, we can use probability theory to derive the probability distribution of the output.</p>
+
+<p><strong>Example 0.4.6</strong>: Define the function <br />
+$f:{1, 2, 3,..6}\rightarrow {0, 1}$ by:</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+f(x) = \begin{cases}
+0 & \text{if x is even} \\
+1 & \text{if x is odd}
+\end{cases} %]]></script>
+
+<p>Consider the experiment in which we roll a single die, yielding one of numbers in {1, 2, 3, 4, 5, 6}, and then apply $f(\cdot)$ to that number, yeidling either a 0 or 1. What is probabilty function for the outcome of this experiment ?</p>
+
+<p>The outcome of the experiment is 0 if the rolled die shows 2, 4, 6. Each of these probabilies has probability 1/6.  By the Fundamental Principle Of Probability Theory, therefore the output of the function is 0 with probability is 1/6 + 1/6 + 1/6, which is 1/2. Similary, the output of function is 1 with probability 1/2. Thus the probability distribution of the output function is: {0: 1/2, 1: 1/2}.</p>
+
+<p><strong>Quiz 0.4.7</strong>: Consider the flipping of a panny and a nikel coin. The outcome is a pair (x, y), where each x and y is ‘H’ or ‘T’. Define the function:</p>
+
+<p><script type="math/tex">f: \{ ('H', 'H'), ('H', 'T'), ('T', 'H'), ('T', 'T') \}</script>
+by</p>
+
+<script type="math/tex; mode=display">f((x, y)) = \text{the number of H's represented}</script>
+
+<p><strong>Answer</strong></p>
+
+<p>co-domain is: {0, 1, 2}</p>
+
+<p>probability distribution of the output function is:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="w"> </span><span class="err">0:</span><span class="w"> </span><span class="err">1/4,</span><span class="w">  </span><span class="err">1:</span><span class="w"> </span><span class="err">1/2,</span><span class="w"> </span><span class="err">2:</span><span class="w"> </span><span class="err">1/4</span><span class="p">}</span><span class="w">
+</span></code></pre>
+</div>
+
+<p><strong>Example</strong> Using a function that mapping $\Omega = {A, B,.. Z}$ to {0, 1, 2, 3,} and so on.</p>
+
+<p>Consider the experiment in which <em>f</em> is applied to a character selected randomly according to the probability distribution as bellow:</p>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="s">'A'</span><span class="p">:</span><span class="mi">9</span><span class="o">/</span><span class="mi">95</span><span class="p">,</span> <span class="s">'B'</span><span class="p">:</span><span class="mi">2</span><span class="o">/</span><span class="mi">95</span><span class="p">,</span> <span class="s">'C'</span><span class="p">:</span><span class="mi">2</span><span class="o">/</span><span class="mi">95</span><span class="p">,</span> <span class="s">'D'</span><span class="p">:</span><span class="mi">4</span><span class="o">/</span><span class="mi">95</span><span class="p">,</span> <span class="s">'E'</span><span class="p">:</span><span class="mi">12</span><span class="o">/</span><span class="mi">95</span><span class="p">,</span> <span class="s">'F'</span><span class="p">:</span><span class="mi">2</span><span class="o">/</span><span class="mi">95</span><span class="p">,</span> <span class="s">'G'</span><span class="p">:</span><span class="mi">3</span><span class="o">/</span><span class="mi">95</span><span class="p">,</span> <span class="s">'H'</span><span class="p">:</span><span class="mi">2</span><span class="o">/</span><span class="mi">95</span><span class="p">,</span> <span class="s">'I'</span><span class="p">:</span><span class="mi">9</span><span class="o">/</span><span class="mi">95</span><span class="p">,</span> <span class="s">'J'</span><span class="p">:</span><span class="mi">1</span><span class="o">/</span><span class="mi">95</span><span class="p">,</span> <span class="s">'K'</span><span class="p">:</span><span class="mi">1</span><span class="o">/</span><span class="mi">95</span><span class="p">,</span> <span class="s">'L'</span><span class="p">:</span><span class="mi">1</span><span class="o">/</span><span class="mi">95</span><span class="p">,</span> <span class="s">'M'</span><span class="p">:</span><span class="mi">2</span><span class="o">/</span><span class="mi">95</span><span class="p">,</span> <span class="s">'N'</span><span class="p">:</span><span class="mi">6</span><span class="o">/</span><span class="mi">95</span><span class="p">,</span> <span class="s">'O'</span><span class="p">:</span><span class="mi">8</span><span class="o">/</span><span class="mi">95</span><span class="p">,</span> <span class="s">'P'</span><span class="p">:</span><span class="mi">2</span><span class="o">/</span><span class="mi">95</span><span class="p">,</span> <span class="s">'Q'</span><span class="p">:</span><span class="mi">1</span><span class="o">/</span><span class="mi">95</span><span class="p">,</span> <span class="s">'R'</span><span class="p">:</span><span class="mi">6</span><span class="o">/</span><span class="mi">95</span><span class="p">,</span> <span class="s">'S'</span><span class="p">:</span><span class="mi">4</span><span class="o">/</span><span class="mi">95</span><span class="p">,</span> <span class="s">'T'</span><span class="p">:</span><span class="mi">6</span><span class="o">/</span><span class="mi">95</span><span class="p">,</span> <span class="s">'U'</span><span class="p">:</span><span class="mi">4</span><span class="o">/</span><span class="mi">95</span><span class="p">,</span> <span class="s">'V'</span><span class="p">:</span><span class="mi">2</span><span class="o">/</span><span class="mi">95</span><span class="p">,</span> <span class="s">'W'</span><span class="p">:</span><span class="mi">2</span><span class="o">/</span><span class="mi">95</span><span class="p">,</span> <span class="s">'X'</span><span class="p">:</span><span class="mi">1</span><span class="o">/</span><span class="mi">95</span><span class="p">,</span> <span class="s">'Y'</span><span class="p">:</span><span class="mi">2</span><span class="o">/</span><span class="mi">95</span><span class="p">,</span> <span class="s">'Z'</span><span class="p">:</span><span class="mi">1</span><span class="o">/</span><span class="mi">95</span><span class="p">}</span> 
+</code></pre>
+</div>
+
+<p>So probability distribution of the output is ?
+Because <em>f</em> is a invertable function, there is one and only one input for which the output is 0, namely A. Thus, the probability of the output being 0 is exactly the same as probability of the input being A, namely 9/95. Similary, for each of the integers 0 through 25, comprising the co-domain of <em>f</em>, there is exactily one letter that maps to that integer, so the probabilty of that integer equals the probability of that letter.</p>
+
+<p>Thus, if the function is invertable, the probabilies are pre-served, the probabilies of various outputs match the probabilies of the inputs. It follows that, if input is chosen according to uniform distribution, the distribution of the output also uniform.</p>
+
+<p><strong>Example 0.4.9</strong>: Caesar Cyphersystem, one encrypts a letter by advancing it three positions, we can use the number <em>k</em> of position by which to advance need not be three, it can be integer from 0 to 25. We ref as a key. Suppose we select <em>key k</em> according to the uniform distribution on {0, 1, .., 25} and use it to encrypt the letter P. Let w = {1, 2, 3.., 25}$\rightarrow$ {A, B.., Z} be the function mapping the key to cyphertext:</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{aligned}
+ w(k) = && h(f(P) + k \mod 26)\\
+      = && h(15 + k \mod 26)
+\end{aligned} %]]></script>
+
+<p>The function $w(\cdot)$ is invertable. the input chosen according the uniform distribution, so the distribution of the output is also uniform.</p>
+
+<h4 id="perfect-secrecy">Perfect secrecy</h4>
+
+<p>We apply this idea to some even simpler cryptosystems. A cryptosystem must satisfy two obvious requirements:</p>
+<ul>
+  <li>the intended recipient of an encrypted message must be able to decrypt it and,</li>
+  <li>someone for whom the message not intended should not be able to decrypt it.</li>
+</ul>
+
+<h3 id="lab-python-sets-lists-dictionaries-and-comprehensions">Lab: Python sets, lists, dictionaries and comprehensions</h3>
+
+<h3 id="simple-expressions">Simple expressions</h3>
+
+<p><strong>Task 0.5.1</strong> find the number of minutes in a week.</p>
+
+<p><strong>Answer</strong>:</p>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="mi">7</span> <span class="o">*</span> <span class="mi">24</span> <span class="o">*</span> <span class="mi">60</span> <span class="c">#= 10080</span>
+</code></pre>
+</div>
+
+<p><strong>Task 0.5.2</strong> find the remainder of 2304811 divided by 47 without using the modulo operator %</p>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code> <span class="mi">2304811</span> <span class="o">-</span>  <span class="p">(</span><span class="mi">2304811</span> <span class="o">//</span> <span class="mi">47</span><span class="p">)</span> <span class="o">*</span> <span class="mi">47</span>  <span class="c">#= 25</span>
+</code></pre>
+</div>
+
+<p>Python use traditional programming notation for scientific notation. The notation 6.022e23 denote the value $6.022 \times  10^{23}$ and 6.626e-34 denote the value: $6.626 \times 10^{-34}$.</p>
+
+<p>Python uses limited precision arithmetic, so:</p>
+
+<p>$10^{16} + 1 = 1e16$ and $10^{-16} + 1 = 1.0$</p>
+
+<h4 id="sets">Sets</h4>
+
+<p>Set is an unordered collection in which each value occurs at most once. the duplicates are eliminated. The cardinality of the set is number of elements in the set. in Python procedure <em>len</em>.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&gt;&gt;&gt; len({'a', 'b', 'c', 'a', 'a'}) #= 3 
+</code></pre>
+</div>
+
+<p>and sum of elements of collections of values is obtained by:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&gt;&gt;&gt; sum({1, 2, 3}) #= 6
+
+&gt;&gt;&gt; sum({1, 2, 3}, 10) #= 10 + 6
+</code></pre>
+</div>
+
+<p>Testing set membership can using <em>in</em> operator and _not in _ operator.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&gt;&gt;&gt; S = {1, 2, 3}
+&gt;&gt;&gt; 2 in S
+True
+&gt;&gt;&gt; 4 in S
+False
+&gt;&gt;&gt; 4 not in S
+True
+</code></pre>
+</div>
+
+<p>Set union and intersection</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td>The <em>union</em> of two sets S and T is new set that contains every value that is an member of S and of T or both. Python use the vertical bar **</td>
+      <td>** as union operator:</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&gt;&gt;&gt; {1, 2, 3} | {2, 3, 4}
+{1, 2, 3, 4}
+</code></pre>
+</div>
+
+<p>The intersection of S and T is new set that contains every vlue that is a member of both S and T. Python using ampersand <strong>&amp;</strong> as intersection operator.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&gt;&gt;&gt; {1, 2, 3} &amp; {2, 3, 4}
+{2, 3}
+</code></pre>
+</div>
+
+<p>Mutating a set</p>
+
+<p>A value that can be altered is a mutable value. Sets are mutable, elements can be added or removed using <strong>add</strong> and <strong>remove</strong> methods.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&gt;&gt;&gt; S = {1, 2, 3}
+&gt;&gt;&gt; S.add(4)
+&gt;&gt;&gt; S.remove(2)
+&gt;&gt;&gt; S
+{1, 3, 4}
+
+</code></pre>
+</div>
+
+<p>Python using method <strong>update</strong> to set all elements of other collection.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&gt;&gt;&gt; S.update({4, 5, 6})
+&gt;&gt;&gt; S
+{1, 3, 4, 5, 6}
+</code></pre>
+</div>
+
+<p>And one can intersect a set with another collections and removing from the set all elemetns not in the other collections:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&gt;&gt;&gt; S.intersection_update({5, 6, 7, 8, 9})
+&gt;&gt;&gt; S
+</code></pre>
+</div>
+
+<p>Set comprehensitions</p>
+
+<script type="math/tex; mode=display">\{2x : x \in \{ 1, 2, 3\}\}</script>
+
+<p>can write in Python as:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&gt;&gt;&gt; {2 * x for x in {1, 2, 3}}
+</code></pre>
+</div>
+<h5 id="lists">Lists</h5>
+
+<p>Python represents sequences of values using <em>lists</em>. In a list, order is signification and repeated elements are allowed. The notation for lists uses square brackets.</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>&gt;&gt;&gt; [1, 2, 3, 2, 3]
+[1, 2, 3, 2, 3]
+</code></pre>
+</div>
+<p>List can contain a set or another lists.</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>&gt;&gt;&gt; [[1, 2, 3], {2, 3, 4}, "ok]
+[[1, 2, 3], {2, 3, 4}, 'ok']
+</code></pre>
+</div>
+<p><em>But a set cannot contain a list because lists are mutable.</em></p>
+
+<p>the <em>length</em> of a list obtained using the procedure <em>len</em>, and the sum of elements of a collection can be computed using <em>sum</em></p>
+
+<p>to combine the elements in one list with other list. using operator +.</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>&gt;&gt;&gt; [1, 2, 3] + ['a', 'b']
+[1, 2, 3, 'a', 'b']
+</code></pre>
+</div>
+<p>to concat multiple list, we also can use sum function with providing [] as the second argument.</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>&gt;&gt;&gt; sum([[1, 2, 3], ['a', 'b']], [])
+[1, 2, 3, 'a', 'b']
+</code></pre>
+</div>
+
+<p>Same as set, list also can use comprehensions.</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>&gt;&gt;&gt; [2 * x for x in {1, 2, 3}]
+[2, 4, 6]
+</code></pre>
+</div>
+
+<p>Obtaining elements of list by indexing
+<em>in set, we cannot using indexing to obtain element, since the order is not significant in set</em></p>
+
+<p>The are two ways to obtain an individual element of list. first is by indexing. index in list is started from 0.</p>
+
+<p>Slices: a slice is a new list consisting of consecutive subsequence of elements of the old ist, namely those indexed by range of integers. the range is specified by a colon-separated pair <em>i: j</em> consisting of the index <em>i</em> as first element and <em>j</em> as one past the index of last element.</p>
+
+<p>Prefixes and Suffixes also used in list, <em>i</em> or <em>j</em> can be omitted, so mylist[:2] consists the first two element index: 0, 2, and [2:] consists all element start from 2 (2, 3, 4..)
+.</p>
+
+<p>Slides that skip. we can use colon-separated triple a:b:c if want slide to include every $c^{th}$ element. for example:
+mylist[::3] consists each $3^{th}$ element.</p>
+
+<p>Obtaining elements of list by unpacking. Instend assigning a list to single variable, one can assign to list of variables like: [x, y, z] = [1, 2, 3].</p>
+
+<h5 id="tuples">Tuples</h5>
+<p>Like a list, tuple is an ordered sequence of elements. However, tuples are immutable so they can be elements of sets.</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>&gt;&gt;&gt; (1, 2 + 1, 4)
+(1, 3, 4)
+
+&gt;&gt;&gt; {1, 2, (3, 4)} | {(5, 6)}
+{1, 2, (3, 4), (5, 6)}
+
+&gt;&gt;&gt; {1, 2, (3, 4)} &amp; {(5, 6)}
+set()
+</code></pre>
+</div>
+
+<p>Obtaining elements of tuble by indexing and unpacking</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>&gt;&gt;&gt; (1, 2, 3, {4, 5})[3]
+{4, 5}
+
+&gt;&gt;&gt; (a, b, c) = (1, 2, 3)
+&gt;&gt;&gt; a
+1
+
+&gt;&gt;&gt; a, b, c = (1, 2, 3)
+&gt;&gt;&gt; b
+2
+
+&gt;&gt;&gt; a, b, c = 1, 2, 3
+&gt;&gt;&gt; c
+3
+</code></pre>
+</div>
+
+<p>Obtaining a list or set form other collection by using constructor <em>list</em>, <em>set</em>, <em>tuple</em></p>
+<div class="highlighter-rouge"><pre class="highlight"><code>&gt;&gt;&gt; list({1, 2, 3})
+[1, 2, 3]
+&gt;&gt;&gt; set([1,1, 2, 3, 3])
+{1, 2, 3}
+&gt;&gt;&gt; tuple({1, 2, 3, 4})
+(1, 2, 3, 4)
+</code></pre>
+</div>
+
+<p>Tuple comprehensiton is not return a tuple - it return a generator.</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>&gt;&gt;&gt; (x for x in [1, 2, 3])
+ &lt;generator object &lt;genexpr&gt; at 0...
+</code></pre>
+</div>
+<p>To convert to list or tuple, use list, tuple constructor</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>&gt;&gt;&gt; tuple((x for x in [1, 2, 3]))
+</code></pre>
+</div>
+
+<h5 id="ranges">Ranges</h5>
+<p>for any integer <em>n</em> <strong>range(n)</strong> represents the sequence of integers from <em>0</em> to <em>n-1</em>. For example range(10) represents the integers from 0 through 9. thefore, the value of the following comprehension is the sum of the squares of these integers: <code class="highlighter-rouge">sum({i * i for i in range(10)})</code>. to turn the range into list or set, tuple, we can use constructor <em>list, set, tuple,</em></p>
+
+<p><strong>Task 0.5.18</strong> write a comprehension over a range of the from range(n) such that the value of the comprehension is the set of odd numbers from 1 to 99</p>
+
+<p><strong>Answer</strong></p>
+<div class="highlighter-rouge"><pre class="highlight"><code>&gt;&gt;&gt; {x for x in range(100) if x % 2}
+
+# or
+&gt;&gt;&gt; {x for x in tuple(range(100))[1::2]}
+</code></pre>
+</div>
+<p>We also can form a range with one, two or three arguments. the expression range(a, b) represents the sequence of integers $a, a + 1, a + 2, … b -1$. and range(a, b, c) represents the sequence of integers $a, a + c, a + 2c, ..$ stopping just before of b.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&gt;&gt;&gt; tuple(range(5, 10))
+(5, 6, 7, 8, 9)
+
+&gt;&gt;&gt; tuple(range(1, 10, 3))  
+(1, 4, 7)
+
+&gt;&gt;&gt; tuple(range(0, 10, 3))
+(0, 3, 6, 9)
+</code></pre>
+</div>
+
+<h5 id="zip">Zip</h5>
+<p>Another collection can be interated orver is a <em>zip</em>. zip is constructed from other collections all of the same length. each lement of the zip is a tuple consisting of one element from each of the input collections.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&gt;&gt;&gt; tuple(zip([1, 2, 3], [4, 5, 6]))
+( (1, 4), (2, 5), (3, 6) )
+
+&gt;&gt;&gt; characters = ['Neo', 'Morpheus', 'Trinity']
+&gt;&gt;&gt; actors = ['Neanu', 'Laurence', 'Carrie-Anne']
+&gt;&gt;&gt; set(zip(characters, actors))
+
+&gt;&gt;&gt; [character + ' is played by ' + actor for  (character, actor) in zip(characters, actors)]
+
+['Neo is played by Neanu',
+ 'Morpheus is played by Laurence',
+ 'Trinity is played by Carrie-Anne']
+
+</code></pre>
+</div>
+<p><strong>Task 0.5.19</strong>: Assign to L the list consisting of the first five letters [‘A’, ‘B’, ‘C’, ‘D’, ‘E’]. Next use L in an exprssion whose value is: <br />
+   [ (0, ‘A’), (1, ‘B’), .. (‘4’, ‘E’) ]
+your expression should use a range and a zip, but should not use a comprehention.</p>
+
+<p><strong>Answer</strong>:</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>&gt;&gt;&gt; L = ['A', 'B', 'C', 'D', 'E']
+&gt;&gt;&gt; list(zip(range(len(L)), L))
+[(0, 'A'), (1, 'B'), (2, 'C'), (3, 'D'), (4, 'E')]
+</code></pre>
+</div>
+<p><strong>Task 0.5.20</strong>: Starting from the lists [10, 25, 40] and [1, 15, 20], write a comprehention whose value is the three-element list in which the first element is the sum of 10 and 1, the second is the sum of 25 and 15, and the third is the sum of 40 and 20. Your expression should se zip but not list.</p>
+
+<p><strong>Answer</strong></p>
+<div class="highlighter-rouge"><pre class="highlight"><code>&gt;&gt;&gt; [x + y for  (x, y) in zip([10, 25, 40], [1, 15, 20])]
+[11, 40, 60]
+</code></pre>
+</div>
+
+<p>To reverse order of list, use <em>reversed(L)</em> function, which dose not change the list L,</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>&gt;&gt;&gt; reversed([1, 2, 3])
+[3, 2, 1]
+</code></pre>
+</div>
+
+<h4 id="dictionaries">Dictionaries</h4>
+<p>a dictionary is a set of key-value pairs. example: function <em>f</em> that maps each letter in the alphabet to its rank in alphabet could be written as:</p>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="err">'A':</span><span class="w"> </span><span class="err">0,</span><span class="w"> </span><span class="err">'B':</span><span class="w"> </span><span class="err">1,</span><span class="w"> </span><span class="err">'C':</span><span class="w"> </span><span class="err">2,</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="err">'Z':</span><span class="w"> </span><span class="err">25</span><span class="p">}</span><span class="w">
+</span></code></pre>
+</div>
+
+<p>In Math it’s can written as:</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{array}{}
+  A \mapsto 0 &  B \mapsto 1  & C \mapsto 2 & \cdots & Z\mapsto 25 
+\end{array} %]]></script>
+
+<p>As in sets, the order of the key-value pairs is irrelavant, and the keys must be <strong>immutable</strong> (no sets, lists or dictionaries). The keys will mostly be integers, strings, tuples of strings and integers. The keys and values can be specified with expressions.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&gt;&gt;&gt; { 2 + 1: 'thr' + 'ee', 2 * 2: 'fo' + 'ur' }
+{3: 'three', 4: 'four'}
+</code></pre>
+</div>
+
+<p>Each key in a dictionary there corresponds only one value. if a dictionary is given multiple values for the same key, only one value will be associated with that key.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&gt;&gt;&gt; {'0': 'zero', '0': 'nothing'}
+{'0': 'nothing'}
+</code></pre>
+</div>
+
+<p>Obtaining the value corresponding to a particular key uses the same syntax as indexing a list or tuple. If the key is not represented in the dictionary, python considers it an KeyError.</p>
+
+<p>To check where a key is in a dictionary using the <em>in</em> operator like testing membership for set.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&gt;&gt;&gt; d = {'Oracle': 'DB', 'Apple': 'OSX'}
+&gt;&gt;&gt; d['Oracle'] if 'Oracle' in d else 'NOT PRESENT'
+</code></pre>
+</div>
+
+<p><strong>Task 0.5.21</strong>: Suppose dlist is a list of dictionaries and <em>k</em> is a key that appears in all the dictionaries in dlist. Write a comprehension that evaluates to the list whose $i^{th}$ element is the value corresponding to key <em>k</em> in the $i^{th}$ dictionary in dlist.</p>
+
+<p>Here is some sample test data:</p>
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">dlist</span> <span class="o">=</span> <span class="p">[{</span><span class="s">'James'</span><span class="p">:</span><span class="s">'Sean'</span><span class="p">,</span> <span class="s">'director'</span><span class="p">:</span><span class="s">'Terence'</span><span class="p">},</span> <span class="p">{</span><span class="s">'James'</span><span class="p">:</span><span class="s">'Roger'</span><span class="p">,</span> <span class="s">'director'</span><span class="p">:</span><span class="s">'Lewis'</span><span class="p">},</span> <span class="p">{</span><span class="s">'James'</span><span class="p">:</span><span class="s">'Pierce'</span><span class="p">,</span> <span class="s">'director'</span><span class="p">:</span><span class="s">'Roger'</span><span class="p">}]</span> 
+
+<span class="c"># k = 'James'</span>
+</code></pre>
+</div>
+
+<p><strong>Answer</strong></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&gt;&gt;&gt; [d[k] for d for d in dlist]
+</code></pre>
+</div>
+
+<p>The <em>identity function</em> on set D is the function with the following spect:</p>
+<ul>
+  <li><em>input</em>: an element x of D</li>
+  <li><em>output</em>: x</li>
+</ul>
+
+<p>example a dictionary that represents the identity function on D = {‘red’, ‘white’, ‘blue’}</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&gt;&gt;&gt;D = {'red', 'white', 'blue'}
+&gt;&gt;&gt;d = {x:x for x in D}
+</code></pre>
+</div>
+
+<p>key union and interset</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>&gt;&gt;&gt; [k for k in {'a': 1, 'b': 2}.keys() | {'a': 2, 'c': 4}.keys()]
+['a', 'b', 'c']
+
+&gt;&gt;&gt; [k for k in {'a': 1, 'b': 2}.keys() &amp; {'a': 2, 'c': 4}.keys()]
+
+['a']
+</code></pre>
+</div>
+
+<p>iterates over the (key, value) pairs of dictionary using items(). Each pair is tuple.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&gt;&gt;&gt; id2salary = {0: 100, 3:900, 1: 1222}
+&gt;&gt;&gt; names = ['Larry', 'Curly', '',  'Moe']
+&gt;&gt;&gt; {names[k]: v for k,v in id2salary.items()}
+{'Curly': 1222, 'Larry': 100, 'Moe': 900}
+</code></pre>
+</div>
+
+<h4 id="defining-one-lin-procedures">Defining one-lin procedures</h4>
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="k">def</span> <span class="nf">twice</span><span class="p">(</span><span class="n">z</span><span class="p">):</span> <span class="k">return</span> <span class="n">z</span> <span class="o">*</span> <span class="mi">2</span>
+</code></pre>
+</div>
+<p>The word <em>def</em> introduces a procedure definition. name of function being defined is twice, the variable z called the <em>formal argument</em> to the procedure. once this procedure is defined, you can invoke it using the usual notation: the name of procedure followed by expression in parentheis, e.g: <em>twice(1+ 2)</em>. The value 3 of expression <em>1+2</em> is <em>actual agument</em> to the procedure. when procedure invoked, the formal agument is temporarily bound to the actual argument, and the body of procedure is excuted. at the and, the binding of the actual argument is removed.</p>
+
+    </div>
+  
+    <!-- Previous / Next Buttons -->
+    <div class="pagenav">
+		
+        <div class="wrapper" id="left">
+          <small><b>Previous</b> Sep 21, 2017</small>
+          <br>
+          <a class="no-hov" href="/2017/09/mathjax-cheetsheet">&laquo; Mathematical notation, equation, formulas with MathJax</a>
+        </div>
+		
+		
+        <div class="wrapper" id="right">
+          <small>Sep 29, 2017 <b>Next</b></small>
+          <br>
+          <a class="no-hov" href="/2017/09/mathjax-cheetsheet">Use Mecab in Python To Extract Noun &raquo;</a>
+        </div>
+		
+		</div>
+
+		<!-- Disqus comments view -->
+		
+</article>
+
+    </div>
+    <footer class="c-page__footer">
+    <p>&copy; dungntnew 2017</p>
+    <p><a href="https://twitter.com/dungntnew">Twitter</a><span class="u-separate"></span><a href="https://github.com/dungntnew">Github</a></p>
+</footer>
+
+</div>
+
+        </main>
+    
+    </body>
+</html>

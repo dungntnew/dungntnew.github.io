@@ -6,9 +6,881 @@
 </description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 21 Sep 2017 14:51:12 +0900</pubDate>
-    <lastBuildDate>Thu, 21 Sep 2017 14:51:12 +0900</lastBuildDate>
+    <pubDate>Fri, 29 Sep 2017 19:28:40 +0900</pubDate>
+    <lastBuildDate>Fri, 29 Sep 2017 19:28:40 +0900</lastBuildDate>
     <generator>Jekyll v3.5.2</generator>
+    
+      <item>
+        <title>Use Mecab in Python To Extract Noun</title>
+        <description>&lt;script async=&quot;&quot; defer=&quot;&quot; src=&quot;https://buttons.github.io/buttons.js&quot;&gt;&lt;/script&gt;
+
+&lt;h3 id=&quot;installing-mecab&quot;&gt;Installing MeCab&lt;/h3&gt;
+
+&lt;p&gt;First, let’s get MeCab (the core segmentation software) and MeCab-ipadic&lt;/p&gt;
+
+&lt;h4 id=&quot;macos&quot;&gt;macOS:&lt;/h4&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;brew install mecab
+brew install mecab-ipadic
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;ubuntu&quot;&gt;Ubuntu:&lt;/h4&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo apt-get install mecab mecab-ipadic libmecab-dev
+sudo apt-get install mecab-ipadic-utf8
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;You can test it by typing “mecab” at the terminal,type some Japanese text, and press enter.
+The result should look like this:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;mecabajisai:flask-manga dungntnew$ mecab
+こんにちは、今日はいい天気ですね。
+こんにちは 感動詞,*,*,*,*,*,こんにちは,コンニチハ,コンニチワ
+、 記号,読点,*,*,*,*,、,、,、
+今日  名詞,副詞可能,*,*,*,*,今日,キョウ,キョー
+は 助詞,係助詞,*,*,*,*,は,ハ,ワ
+いい  形容詞,自立,*,*,形容詞・イイ,基本形,いい,イイ,イイ
+天気  名詞,一般,*,*,*,*,天気,テンキ,テンキ
+です  助動詞,*,*,*,特殊・デス,基本形,です,デス,デス
+ね 助詞,終助詞,*,*,*,*,ね,ネ,ネ
+。 記号,句点,*,*,*,*,。,。,。
+EOS
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Ctrl-C to get back to the terminal command line&lt;/p&gt;
+
+&lt;p&gt;Download the dictionary of neologisms and slang&lt;/p&gt;
+
+&lt;h4 id=&quot;macos-1&quot;&gt;macOS:&lt;/h4&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;brew install git curl xz
+git clone --depth 1 https://github.com/neologd/mecab-ipadic-neologd.git
+&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;mecab-ipadic-neologd
+./bin/install-mecab-ipadic-neologd -n
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;ubuntu-1&quot;&gt;Ubuntu:&lt;/h4&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo apt-get install git curl
+git clone --depth 1 https://github.com/neologd/mecab-ipadic-neologd.git
+&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;mecab-ipadic-neologd
+sudo ./bin/install-mecab-ipadic-neologd -n
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Try use ipadic-neologd lib with bash&lt;/p&gt;
+
+&lt;h4 id=&quot;macos-2&quot;&gt;macOS:&lt;/h4&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;mecab -d /usr/local/lib/mecab/dic/mecab-ipadic-neologd/
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;ubuntu-2&quot;&gt;Ubuntu:&lt;/h4&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;mecab -d /usr/lib/mecab/dic/mecab-ipadic-neologd/
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;working-with-python&quot;&gt;Working with Python&lt;/h3&gt;
+
+&lt;p&gt;At the terminal, type:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;pip3 install mecab-python3
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Try use MeCab in Python.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;import MeCab
+test = &quot;今日はいい天気ですね。遊びに行かない？新宿で祭りがある！&quot;
+mt = MeCab.Tagger(&quot;-d /usr/local/lib/mecab/dic/mecab-ipadic-neologd&quot;)
+
+parsed = mt.parseToNode(test)
+components = []
+while parsed:
+    components.append(parsed.surface)
+    parsed = parsed.next
+
+print(components)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;This will give you the following output…&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;['', '今日', 'は', 'いい', '天気', 'です', 'ね', '。', '遊び', 'に', '行か', 'ない', '？', '新宿', 'で', '祭り', 'が', 'ある', '！', '']
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Next, Try to update self dictionary&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;cd to working dir (ex: ~/ml-fun/mecab)&lt;/li&gt;
+  &lt;li&gt;create dictionary file(ex: foo.csv)&lt;/li&gt;
+  &lt;li&gt;add words to file (foo.csv)&lt;/li&gt;
+  &lt;li&gt;compile new dictionary&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;mecab-dict-index \
+-d ＜システム辞書が入っているディレクトリ＞ \
+-u ＜ユーザ辞書の保存先＞ \
+-f ＜CSVファイルの文字コード＞ -t ＜ユーザ辞書の文字コード＞ ＜CSVファイル＞
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;or:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;/usr/local/libexec/mecab/mecab-dict-index \
+ -d /usr/local/lib/mecab/dic/ipadic \
+ -u foo.dic -f euc-jp -t euc-jp foo.csv
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;-d DIR: system dictionary director&lt;/li&gt;
+  &lt;li&gt;-u FILE: user dictionary file&lt;/li&gt;
+  &lt;li&gt;-f charset: CSV character encode&lt;/li&gt;
+  &lt;li&gt;-t charset: Binary dictionary character encode&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The Next:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;confirm new generated new file: &lt;em&gt;~/ml-fun/mecab/foo.dic&lt;/em&gt;&lt;/li&gt;
+  &lt;li&gt;add new line to file: &lt;em&gt;/usr/local/lib/mecab/dic/ipadic/dicr&lt;/em&gt; or &lt;em&gt;/usr/local/etc/mecabr&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;userdic = ~/ml-fun/mecab/foo.dic
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;userdic&lt;/code&gt; can set to mutiple file same time.&lt;/p&gt;
+
+&lt;p&gt;for example:&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;userdic = /home/foo/bar/foo.dic,/home/foo/bar2/usr.dic,/home/foo/bar3/bar.dic
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;data row example:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;工藤,1223,1223,6058,名詞,固有名詞,人名,名,*,*,くどう,クドウ,クドウ
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;with: (左から)&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;表層形,左文脈ID,右文脈ID,コスト,品詞,品詞細分類1,品詞細分類2,品詞細分類3,活用形,活用型,原形,読み,発音
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;csv example:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ユーザ設定,,,10,名詞,一般,*,*,*,*,ユーザ設定,ユーザセッテイ,ユーザセッテイ,追加エントリ
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;auto generate cost for csv:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; /usr/local/libexec/mecab/mecab-dict-index -m model_file -d/usr/local/lib/mecab/dic/ipadic \
+-u foo2.csv -f euc-jp -t euc-jp -a foo.csv
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Reference blog: &lt;a href=&quot;http://www.robfahey.co.uk/blog/japanese-text-analysis-in-python/&quot;&gt;@robfahey&lt;/a&gt;,
+&lt;a href=&quot;https://blog.apar.jp/linux/2748/&quot;&gt;mecab add user dict&lt;/a&gt;&lt;/p&gt;
+
+</description>
+        <pubDate>Fri, 29 Sep 2017 00:00:00 +0900</pubDate>
+        <link>http://localhost:4000/2017/09/mecab</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/09/mecab</guid>
+        
+        <category>Mecab</category>
+        
+        <category>Japanese</category>
+        
+        <category>japanese-text-analysis-in-python</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Coding Maxtrix - Chapter 0 Function</title>
+        <description>&lt;h2 id=&quot;the-function-and-other-mathematical-and-computational-preliminaries&quot;&gt;The Function and other mathematical and computational preliminaries&lt;/h2&gt;
+
+&lt;h4 id=&quot;set-terminology-and-notation&quot;&gt;Set terminology and notation&lt;/h4&gt;
+
+&lt;p&gt;Set is a collection of mathematical objects in which each object is considered to occur at most one. The objects belonging to a set are its &lt;em&gt;elements&lt;/em&gt;. We use curly braces to indicate a set specified by explicitly enumerating its elements. For example, $\heartsuit\spadesuit\clubsuit\diamondsuit$ is the set of suits in traditional deck of cards.  The order in which elements are listed is not signification; a set imposes no order among its elements.&lt;br /&gt;
+  The symbol $\in$ is used to indicate that an object belongs to a set (equivalently, that the set &lt;em&gt;contains&lt;/em&gt; the object). For example 
+  $\heartsuit \in {\heartsuit,\spadesuit,\clubsuit\diamondsuit}$.&lt;br /&gt;
+  One set $S_1$ is &lt;em&gt;contained in&lt;/em&gt; another $S_2$ written $S_1 \subseteq S_2$ if every element of $S_1$ belongs to $S_2$. Two sets are equal consists of two steps: (1) prove the first set is contained in the sencond, and (2) prove the sencond is contained in the first.&lt;br /&gt;
+  A set can be infinite. For example set R, which consists of all real numbers, and the set C which consists of all complex numbers.&lt;br /&gt;
+  If a set S is not infinite, we use $|S|$ to denote its &lt;em&gt;candinality&lt;/em&gt;, the number of elements it contains. For example, the set of suits has candinality is 4.&lt;/p&gt;
+
+&lt;h4 id=&quot;cartesian-product&quot;&gt;Cartesian product&lt;/h4&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;That is, for sets A and B, the &lt;strong&gt;Cartesian product&lt;/strong&gt; A x B is the set of all &lt;em&gt;ordered pairs&lt;/em&gt; (a, b) where $a \in A$ and $b \in B$. &lt;strong&gt;Products&lt;/strong&gt; can be specified using set-builder notation for example. A = {x, y, z}, B = {1, 2, 3} so A x B is a sets consists all pairs {(x, 1), (x, 2), (x, 3), (y, 1), (y, 2), (y, 3), (z, 1), (z, 2), (z, 3)}. The candinality of A x B  = $&lt;/td&gt;
+      &lt;td&gt;A&lt;/td&gt;
+      &lt;td&gt;x&lt;/td&gt;
+      &lt;td&gt;B&lt;/td&gt;
+      &lt;td&gt;= 9$.&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{array}{|c|c|c|c|}
+\text{A B} &amp; 1 &amp; 2 &amp; 3 \\
+x &amp; (x, 1) &amp; (x, 2) &amp; (x, 3) \\
+y &amp; (y, 1) &amp; (y, 2) &amp; (y, 3) \\
+z &amp; (z, 1) &amp; (z, 2) &amp; (z, 3) \\ 
+\end{array} %]]&gt;&lt;/script&gt;
+
+&lt;h4 id=&quot;the-function&quot;&gt;The Function&lt;/h4&gt;
+&lt;p&gt;The function is a rule that, for each element in some &lt;em&gt;set&lt;/em&gt; D of posible inputs, assigns a posible output. The output is said to the &lt;em&gt;image&lt;/em&gt; of the input under the given function.&lt;/p&gt;
+
+&lt;p&gt;and the input is a &lt;em&gt;pre-image&lt;/em&gt; of the output. The set &lt;em&gt;D&lt;/em&gt; of posible inputs is called the &lt;em&gt;domain&lt;/em&gt; of the function.&lt;br /&gt;
+  Formally, a &lt;em&gt;function&lt;/em&gt; is a (possiby infinite) set of pairs &lt;em&gt;(a, b)&lt;/em&gt; no two of which share the same first entry.&lt;/p&gt;
+
+&lt;hr /&gt;
+&lt;p&gt;&lt;strong&gt;Example&lt;/strong&gt;: the doubling function with domain {1, 2, 3,..} is {(1, 2), (2, 4), (3, 6),..}&lt;/p&gt;
+
+&lt;hr /&gt;
+&lt;p&gt;&lt;strong&gt;Example&lt;/strong&gt;: The multiplication function with domain {1, 2, 3..} x {1, 2, 3, ..} looks something like this:&lt;br /&gt;
+{((1, 1), 1), ((1, 2), 2), ((1, 3), 3), ..((2, 1), 2), ((2, 2), 4), ((2, 3), 6), ..}&lt;/p&gt;
+
+&lt;p&gt;For a function named &lt;em&gt;f&lt;/em&gt;, the image of &lt;em&gt;q&lt;/em&gt; under &lt;em&gt;f&lt;/em&gt; denoted by &lt;em&gt;f(q)&lt;/em&gt;. If &lt;em&gt;r = f(q)&lt;/em&gt;, we say that &lt;em&gt;q maps to r under f&lt;/em&gt;. The notaion for “q maps to r” is $q \mapsto r$. Its is convenient when specifying a function to specify a &lt;em&gt;co-domain&lt;/em&gt; for the function.The co-domain is a set from which the function’s outputvalues are chosen. Note that one has some leeway in choosing the co-domain since not all of its members need to be outputs.&lt;br /&gt;
+The notation&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;f: D \rightarrow F&lt;/script&gt;
+
+&lt;p&gt;mean that &lt;em&gt;f&lt;/em&gt; is a function whose domain is the set &lt;em&gt;D&lt;/em&gt; and whose &lt;em&gt;con-domain&lt;/em&gt; (the set of possible output) is the set &lt;em&gt;F&lt;/em&gt;. More briefly: “a function from &lt;em&gt;D&lt;/em&gt; to &lt;em&gt;F&lt;/em&gt;” or “a function that maps &lt;em&gt;D&lt;/em&gt; to &lt;em&gt;F&lt;/em&gt;”.&lt;/p&gt;
+
+&lt;hr /&gt;
+&lt;p&gt;&lt;strong&gt;Example&lt;/strong&gt; Caesar was said to have sued a cryptosystem in which each letter was replaced with the one three steps forwad in alphabet(warapping around for X, Y, Z). Thus the plain-text MATRIX would be encrypted as the cyphertex PDWULA. The function that maps each plain text letter to its cyphertex replacement bould be written as:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;A \mapsto D, B\mapsto E,C \mapsto F ..&lt;/script&gt;
+
+&lt;p&gt;This function’s domain and co-domain are both the alphabet {A, B, .., Z}&lt;/p&gt;
+
+&lt;p&gt;The &lt;em&gt;image&lt;/em&gt; of a function &lt;em&gt;f&lt;/em&gt; is set of images of all domain lements. That is, the image of &lt;em&gt;f&lt;/em&gt; is the set of elements of the co-domain that actually occur as outputs. For example, the image of Caesar’s encryption function is the entrie alphabet, and the image of cosine funciton is set of numbers between -1 and 1.&lt;/p&gt;
+
+&lt;h4 id=&quot;functions-versus-procedures-versus-computation-problems&quot;&gt;Functions versus procedures, versus computation problems.&lt;/h4&gt;
+
+&lt;p&gt;A &lt;em&gt;procedure&lt;/em&gt; is a precise description of computation; it accept &lt;em&gt;inputs&lt;/em&gt; called &lt;em&gt;arguments&lt;/em&gt; and produces an &lt;em&gt;output&lt;/em&gt; called the &lt;em&gt;return value&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Example:&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;def mul(q, p): return q * p
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;A &lt;em&gt;computational problem&lt;/em&gt; is an input-output specification that procedure might be required to satisfy.&lt;/p&gt;
+
+&lt;p&gt;Example:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;- input: pair of (p, q) of integers greater than 1
+
+- output: the product of p, q
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;notation-for-the-set-of-functions-with-given-domain-and-co-domain&quot;&gt;Notation for the set of functions with given domain and co-domain&lt;/h4&gt;
+
+&lt;p&gt;For sets &lt;em&gt;D&lt;/em&gt; and &lt;em&gt;F&lt;/em&gt;, we use the notation $F^D$ to denote all functions from &lt;em&gt;D&lt;/em&gt; to &lt;em&gt;F&lt;/em&gt;.&lt;br /&gt;
+For any finite sets &lt;em&gt;D&lt;/em&gt; and &lt;em&gt;F&lt;/em&gt;, we have: $|D^F| = |D|^{|F|}$&lt;/p&gt;
+
+&lt;h4 id=&quot;identity-function&quot;&gt;Identity function&lt;/h4&gt;
+
+&lt;p&gt;From any domain &lt;em&gt;D&lt;/em&gt;, there is a function $id_D: D \to D$ that called the &lt;em&gt;identity function&lt;/em&gt; for D, defined by:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;id_D(d) = d&lt;/script&gt;
+
+&lt;p&gt;for every $d\in D$.&lt;/p&gt;
+
+&lt;h4 id=&quot;composition-of-functions&quot;&gt;Composition of functions&lt;/h4&gt;
+
+&lt;p&gt;The operation &lt;em&gt;functional composition&lt;/em&gt; combines two functions to get new function. We will later deine maxtrix multiplication in terms of function composition. Given two functions $f: A\to B$ and $g: B\to C$ , the function $g \circ f$, called the composition of &lt;em&gt;g&lt;/em&gt; and &lt;em&gt;f&lt;/em&gt; , is function whose domain is &lt;em&gt;A&lt;/em&gt; and its co-domain is &lt;em&gt;C&lt;/em&gt;. It defined by the rule:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;(g \circ f)(x) = g(f(x))&lt;/script&gt;
+
+&lt;p&gt;&lt;strong&gt;Example&lt;/strong&gt; Define the function&lt;/p&gt;
+
+&lt;p&gt;&lt;script type=&quot;math/tex&quot;&gt;f: \{A, B, C, D, ..., Z\}  \rightarrow \{0, 1, 2, 3, .., 25\}&lt;/script&gt;
+by&lt;/p&gt;
+
+&lt;p&gt;&lt;script type=&quot;math/tex&quot;&gt;A\mapsto 0, B\mapsto 1, C\mapsto 2, ...,Z\mapsto 25&lt;/script&gt;
+Define function &lt;em&gt;g&lt;/em&gt; as follows. The domain and co-domain of &lt;em&gt;g&lt;/em&gt; are both the set {0, 1, …, 25} , and $g(x) = (x + 3) \mod 26$. For third function &lt;em&gt;h&lt;/em&gt;, the domain is {0, ..25} and the co-domain is {A, .., Z} and $0\mapsto A, 1\mapsto B, etc$. Then $h\circ(g\circ f)$ is function that implements the Caesar cypher as descripted in above.&lt;/p&gt;
+
+&lt;p&gt;For building intuition, we can use a diagram to represent compostion of functions with finite domains and co-domains.&lt;/p&gt;
+
+&lt;h4 id=&quot;associativity-of-function-composition&quot;&gt;Associativity of function composition&lt;/h4&gt;
+&lt;p&gt;The composition of function is &lt;em&gt;associative&lt;/em&gt;:&lt;/p&gt;
+
+&lt;p&gt;For function &lt;em&gt;f&lt;/em&gt;, &lt;em&gt;g&lt;/em&gt;, &lt;em&gt;h&lt;/em&gt;,&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;h\circ (g\circ f) = (g\circ h)\circ f&lt;/script&gt;
+
+&lt;p&gt;So:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;h \circ (g \circ f) = h\circ g \circ f&lt;/script&gt;
+
+&lt;h4 id=&quot;function-inverse&quot;&gt;Function inverse&lt;/h4&gt;
+&lt;p&gt;For example, who recived a cyphertex: PDWULA. to obtain the plaintext (MATRIX), we must find for each letter in cyphertex the letter that maps to it under encryption function. That is, we must find the letter that maps to P (namely M), letter that maps to D (namely A) and so on. In doing, we can be seen to applying &lt;em&gt;another&lt;/em&gt; function to each of letters of cyphertex, specifically the function that reverses the effect of the encryption function. This function is said to be &lt;em&gt;functional inverse&lt;/em&gt; of encryption function.&lt;/p&gt;
+
+&lt;p&gt;For antother example, consider the functions &lt;em&gt;f&lt;/em&gt; and &lt;em&gt;h&lt;/em&gt; in Example above, &lt;em&gt;f&lt;/em&gt; is function from {A, B, .., Z} to {0, 1, ..25} and &lt;em&gt;h&lt;/em&gt; is function from {0, 1, 2..} to {A, B, C, .., Z}. Each one reverses the effect of the other. That is, $h\circ f$ is the identity function on {A, .. Z} and $f\circ h$ is identity function on {0, 1, .., 25}. We say that &lt;em&gt;h&lt;/em&gt; is function inverse of &lt;em&gt;f&lt;/em&gt;. There are no reason for privilegin &lt;em&gt;f&lt;/em&gt;, however; &lt;em&gt;f&lt;/em&gt; is function inverse of &lt;em&gt;h&lt;/em&gt; as well.&lt;/p&gt;
+
+&lt;p&gt;In general,&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Defination 0.3.13:&lt;/strong&gt; we say that functions &lt;em&gt;f&lt;/em&gt; and &lt;em&gt;g&lt;/em&gt; are &lt;em&gt;function inverses&lt;/em&gt; of each other if&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;$f\circ g$ is defined and is the identity function on the domain of &lt;em&gt;g&lt;/em&gt;, and&lt;/li&gt;
+  &lt;li&gt;$g\circ f$ is defined and is the identity function on the domain of &lt;em&gt;f&lt;/em&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Not every function has an inverse. A function that has an inverse is said to be &lt;em&gt;invertible&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Definition 0.3.14&lt;/strong&gt;: Consider a function $f: D\rightarrow F$. We say that &lt;em&gt;f&lt;/em&gt; is &lt;em&gt;one-to-one&lt;/em&gt; if for every $x, y \in D, f(x) = f(y)$ implies $x = y$ . We say that &lt;em&gt;f&lt;/em&gt; is &lt;em&gt;onto&lt;/em&gt; if, for every $z \in F$, there exists $x \in D$ such that $f(x) = z$.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Lemma 0.3.16&lt;/strong&gt;: An invertible function is one-to-one.
+&lt;strong&gt;Lemma 0.3.17&lt;/strong&gt;: An invertible function is onto.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Theorem 0.3.18 (Function Invertibility Theorem)&lt;/strong&gt;: A function is invertible if it is one-to-one and onto.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Lemma 0.3.19&lt;/strong&gt; Every function has at most one function inverse.&lt;/p&gt;
+
+&lt;h4 id=&quot;invertibility-of-the-composition-of-invertible-functions&quot;&gt;Invertibility of the composition of invertible functions&lt;/h4&gt;
+
+&lt;p&gt;&lt;strong&gt;Lemma 0.3.20&lt;/strong&gt;: If &lt;em&gt;f&lt;/em&gt; and &lt;em&gt;g&lt;/em&gt; are invertible functions and $f\circ g$ exists then $f\circ g$ is invertible and ${(f\circ g)}^{-1} = g^{-1}\circ f^{-1}$.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Example&lt;/strong&gt; The following figure shows two invertible functions is &lt;em&gt;f&lt;/em&gt; and &lt;em&gt;g&lt;/em&gt; their composition of this is: $f \circ g$.&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{array}{c c | c}
+
+1 \overset{g}{\mapsto} A &amp; A \overset{f}{\mapsto} p &amp; 1 \overset{f\circ g}{\mapsto} p \\
+
+2 \overset{g}{\mapsto} B &amp; B \overset{f}{\mapsto} q &amp; 2 \overset{f\circ g}{\mapsto} q \\
+
+
+3 \overset{g}{\mapsto} C &amp; C \overset{f}{\mapsto} r &amp; 3 \overset{f\circ g}{\mapsto} r
+
+\end{array} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;The inverse of $f\circ g$ will be $(f \circ g)^{-1}$ figure as bellow&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{array}{c c|c}
+p \xrightarrow{f^{-1}} A &amp; A \xrightarrow{g^{-1}} 1&amp;  p \xrightarrow{g^{-1}\circ f^{-1}} 1
+\\
+q \xrightarrow{f^{-1}} B &amp; B \xrightarrow{g^{-1}} 2&amp;  q \xrightarrow{g^{-1}\circ f^{-1}} 2
+\\
+r \xrightarrow{f^{-1}} C &amp; C \xrightarrow{g^{-1}} 3&amp;  r \xrightarrow{g^{-1}\circ f^{-1}} 3
+\end{array} %]]&gt;&lt;/script&gt;
+
+&lt;h2 id=&quot;probability&quot;&gt;Probability&lt;/h2&gt;
+
+&lt;h4 id=&quot;probability-distributions&quot;&gt;Probability distributions&lt;/h4&gt;
+
+&lt;p&gt;A function $Pr(.)$ from a finite domain $\Omega$ to the set $R^+$ of nonnegatove reals is a &lt;em&gt;discrete probability distribution&lt;/em&gt; if $\sum_{\omega \in \Omega}Pr(\omega)=1$. the elements of the domains as &lt;em&gt;outcomes&lt;/em&gt;. The image of an outcome under PR(.) is called &lt;em&gt;probability&lt;/em&gt; of the outcome. The probabilites are supposed to be proportional to &lt;em&gt;relative likelihoods&lt;/em&gt; of outcomes. The we use the term &lt;em&gt;likelihood&lt;/em&gt; to mean the common sense notion and probability mean the mathematical abstraction of it.&lt;/p&gt;
+
+&lt;h5 id=&quot;uniform-distributions&quot;&gt;Uniform distributions&lt;/h5&gt;
+&lt;p&gt;All the outcoms are equally likely, so they are all assigned the same probabilites. In such a case, we say that the probability distribution is &lt;em&gt;uniform&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Example&lt;/strong&gt;: To model the flipping of a single coin, $\Omega = {heads, tails}$. We assume that the two outcomes are equally likely, so we assign them the same probability: Pr(heads) = Pr(tails). Since we require the sum to be 1, so Pr(heads) = Pr(tails) = 1/2. In Python, we would be write the probabilty distributions as:&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;gt;&amp;gt;&amp;gt; Pr = {heads: 1/2, tails: 1/2}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Example&lt;/strong&gt; To model the roll of single die, $\Omega={1, 2, 3, 4, 5, 6}$ and Pr(1) = Pr(2) = .. Pr(6) = 1/6. In Python we can write:&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;gt;&amp;gt;&amp;gt; Pr = {1: 1/6, 2: 1/6, 3: 1/6, 4: 1/6, 5: 1/6, 6: 1/6}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Example&lt;/strong&gt; To model the flipping of two coins, a penny and a nikel. $\Omega = {HH, HT, TH, TT}$, and each of the outcomes has same probability is 1/4. In Python:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;gt;&amp;gt;&amp;gt; Pr = { ('H', 'H'): 1/4, ('H', 'T'): 1/4, ('T', 'H'): 1/4, ('T', 'T'): 1/4 }
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h5 id=&quot;nonuniform-distributions&quot;&gt;Nonuniform distributions&lt;/h5&gt;
+
+&lt;p&gt;Different outcomes have different probabilities.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Example 0.4.4&lt;/strong&gt; Let $\Omega = {A, B, ..Z}$ and assign probabilities according to how likely you are to draw letter at the begining of a Scrabble game. The likelihood of drawing an R is twice that of drawing a G, thrice that of drawing a C and six times drawing Z. We need to assign probabilities that are proportional to these likelihoods. We must have some number &lt;em&gt;c&lt;/em&gt; such that. for each letter, the probability of drawing that letter should be &lt;em&gt;c&lt;/em&gt; times the number of copies of that letter.&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;Pr[\text{drawing letter X}] = c \cdot \text{number of copies of letter X}&lt;/script&gt;
+
+&lt;p&gt;Summing over all leters, we get&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;1 = c\cdot \text{total number of tiles}&lt;/script&gt;
+
+&lt;p&gt;Since the total number of tiles is 95, we define &lt;em&gt;c = 1/95&lt;/em&gt; . The probability of drawing an E is therefore 12/95, which about .126, the probabiluty of drawing an A is 9/95, and so son. In Python, the probability distribution is&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'A'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;9&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;95&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'B'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;95&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'C'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;95&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'D'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;95&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'E'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;12&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;95&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'F'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;95&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'G'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;95&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'H'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;95&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'I'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;9&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;95&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'J'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;95&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'K'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;95&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'L'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;95&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'M'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;95&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'N'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;95&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'O'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;95&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'P'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;95&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'Q'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;95&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'R'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;95&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'S'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;95&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'T'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;95&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'U'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;95&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'V'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;95&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'W'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;95&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'X'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;95&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'Y'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;95&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'Z'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;95&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;events-and-adding-probabilities&quot;&gt;Events and adding probabilities&lt;/h4&gt;
+
+&lt;p&gt;In Example 0.4.4, what is probability of drawing a &lt;em&gt;vowel&lt;/em&gt; from the bag ?&lt;br /&gt;
+A set of outcomes is called an &lt;em&gt;event&lt;/em&gt;. For example, the event of drawing a vowel is represented by the set: {A, E, I, O, U}.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Principle 0.4.5 (Fundamental Principle of Probability Theory)&lt;/strong&gt;: The probability of an event is sum of probabilities of outcomes making up event.&lt;/p&gt;
+
+&lt;p&gt;Accordings to this principle, the probability of a vowel is:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;9/95 + 12/95 + 9/95 + 8/95 + 4/95&lt;/script&gt;
+
+&lt;p&gt;Which is 42/95&lt;/p&gt;
+
+&lt;h4 id=&quot;applying-a-function-to-a-random-input&quot;&gt;Applying a function to a random input&lt;/h4&gt;
+
+&lt;p&gt;When applying a function to an radom input. Since the input to the function is random, the output should also be considered random. Given the probability distribution of the input and a specification of the function, we can use probability theory to derive the probability distribution of the output.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Example 0.4.6&lt;/strong&gt;: Define the function &lt;br /&gt;
+$f:{1, 2, 3,..6}\rightarrow {0, 1}$ by:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+f(x) = \begin{cases}
+0 &amp; \text{if x is even} \\
+1 &amp; \text{if x is odd}
+\end{cases} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;Consider the experiment in which we roll a single die, yielding one of numbers in {1, 2, 3, 4, 5, 6}, and then apply $f(\cdot)$ to that number, yeidling either a 0 or 1. What is probabilty function for the outcome of this experiment ?&lt;/p&gt;
+
+&lt;p&gt;The outcome of the experiment is 0 if the rolled die shows 2, 4, 6. Each of these probabilies has probability 1/6.  By the Fundamental Principle Of Probability Theory, therefore the output of the function is 0 with probability is 1/6 + 1/6 + 1/6, which is 1/2. Similary, the output of function is 1 with probability 1/2. Thus the probability distribution of the output function is: {0: 1/2, 1: 1/2}.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Quiz 0.4.7&lt;/strong&gt;: Consider the flipping of a panny and a nikel coin. The outcome is a pair (x, y), where each x and y is ‘H’ or ‘T’. Define the function:&lt;/p&gt;
+
+&lt;p&gt;&lt;script type=&quot;math/tex&quot;&gt;f: \{ ('H', 'H'), ('H', 'T'), ('T', 'H'), ('T', 'T') \}&lt;/script&gt;
+by&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;f((x, y)) = \text{the number of H's represented}&lt;/script&gt;
+
+&lt;p&gt;&lt;strong&gt;Answer&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;co-domain is: {0, 1, 2}&lt;/p&gt;
+
+&lt;p&gt;probability distribution of the output function is:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;0:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;1/4,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;1:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;1/2,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;2:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;1/4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Example&lt;/strong&gt; Using a function that mapping $\Omega = {A, B,.. Z}$ to {0, 1, 2, 3,} and so on.&lt;/p&gt;
+
+&lt;p&gt;Consider the experiment in which &lt;em&gt;f&lt;/em&gt; is applied to a character selected randomly according to the probability distribution as bellow:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'A'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;9&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;95&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'B'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;95&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'C'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;95&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'D'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;95&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'E'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;12&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;95&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'F'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;95&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'G'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;95&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'H'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;95&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'I'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;9&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;95&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'J'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;95&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'K'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;95&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'L'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;95&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'M'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;95&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'N'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;95&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'O'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;95&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'P'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;95&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'Q'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;95&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'R'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;95&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'S'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;95&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'T'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;95&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'U'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;95&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'V'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;95&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'W'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;95&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'X'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;95&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'Y'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;95&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'Z'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;95&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;So probability distribution of the output is ?
+Because &lt;em&gt;f&lt;/em&gt; is a invertable function, there is one and only one input for which the output is 0, namely A. Thus, the probability of the output being 0 is exactly the same as probability of the input being A, namely 9/95. Similary, for each of the integers 0 through 25, comprising the co-domain of &lt;em&gt;f&lt;/em&gt;, there is exactily one letter that maps to that integer, so the probabilty of that integer equals the probability of that letter.&lt;/p&gt;
+
+&lt;p&gt;Thus, if the function is invertable, the probabilies are pre-served, the probabilies of various outputs match the probabilies of the inputs. It follows that, if input is chosen according to uniform distribution, the distribution of the output also uniform.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Example 0.4.9&lt;/strong&gt;: Caesar Cyphersystem, one encrypts a letter by advancing it three positions, we can use the number &lt;em&gt;k&lt;/em&gt; of position by which to advance need not be three, it can be integer from 0 to 25. We ref as a key. Suppose we select &lt;em&gt;key k&lt;/em&gt; according to the uniform distribution on {0, 1, .., 25} and use it to encrypt the letter P. Let w = {1, 2, 3.., 25}$\rightarrow$ {A, B.., Z} be the function mapping the key to cyphertext:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+ w(k) = &amp;&amp; h(f(P) + k \mod 26)\\
+      = &amp;&amp; h(15 + k \mod 26)
+\end{aligned} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;The function $w(\cdot)$ is invertable. the input chosen according the uniform distribution, so the distribution of the output is also uniform.&lt;/p&gt;
+
+&lt;h4 id=&quot;perfect-secrecy&quot;&gt;Perfect secrecy&lt;/h4&gt;
+
+&lt;p&gt;We apply this idea to some even simpler cryptosystems. A cryptosystem must satisfy two obvious requirements:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;the intended recipient of an encrypted message must be able to decrypt it and,&lt;/li&gt;
+  &lt;li&gt;someone for whom the message not intended should not be able to decrypt it.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;lab-python-sets-lists-dictionaries-and-comprehensions&quot;&gt;Lab: Python sets, lists, dictionaries and comprehensions&lt;/h3&gt;
+
+&lt;h3 id=&quot;simple-expressions&quot;&gt;Simple expressions&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt;Task 0.5.1&lt;/strong&gt; find the number of minutes in a week.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Answer&lt;/strong&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;mi&quot;&gt;7&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;24&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;60&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;#= 10080&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Task 0.5.2&lt;/strong&gt; find the remainder of 2304811 divided by 47 without using the modulo operator %&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; &lt;span class=&quot;mi&quot;&gt;2304811&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;  &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2304811&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;//&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;47&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;47&lt;/span&gt;  &lt;span class=&quot;c&quot;&gt;#= 25&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Python use traditional programming notation for scientific notation. The notation 6.022e23 denote the value $6.022 \times  10^{23}$ and 6.626e-34 denote the value: $6.626 \times 10^{-34}$.&lt;/p&gt;
+
+&lt;p&gt;Python uses limited precision arithmetic, so:&lt;/p&gt;
+
+&lt;p&gt;$10^{16} + 1 = 1e16$ and $10^{-16} + 1 = 1.0$&lt;/p&gt;
+
+&lt;h4 id=&quot;sets&quot;&gt;Sets&lt;/h4&gt;
+
+&lt;p&gt;Set is an unordered collection in which each value occurs at most once. the duplicates are eliminated. The cardinality of the set is number of elements in the set. in Python procedure &lt;em&gt;len&lt;/em&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;gt;&amp;gt;&amp;gt; len({'a', 'b', 'c', 'a', 'a'}) #= 3 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;and sum of elements of collections of values is obtained by:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;gt;&amp;gt;&amp;gt; sum({1, 2, 3}) #= 6
+
+&amp;gt;&amp;gt;&amp;gt; sum({1, 2, 3}, 10) #= 10 + 6
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Testing set membership can using &lt;em&gt;in&lt;/em&gt; operator and _not in _ operator.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;gt;&amp;gt;&amp;gt; S = {1, 2, 3}
+&amp;gt;&amp;gt;&amp;gt; 2 in S
+True
+&amp;gt;&amp;gt;&amp;gt; 4 in S
+False
+&amp;gt;&amp;gt;&amp;gt; 4 not in S
+True
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Set union and intersection&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;The &lt;em&gt;union&lt;/em&gt; of two sets S and T is new set that contains every value that is an member of S and of T or both. Python use the vertical bar **&lt;/td&gt;
+      &lt;td&gt;** as union operator:&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;gt;&amp;gt;&amp;gt; {1, 2, 3} | {2, 3, 4}
+{1, 2, 3, 4}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;The intersection of S and T is new set that contains every vlue that is a member of both S and T. Python using ampersand &lt;strong&gt;&amp;amp;&lt;/strong&gt; as intersection operator.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;gt;&amp;gt;&amp;gt; {1, 2, 3} &amp;amp; {2, 3, 4}
+{2, 3}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Mutating a set&lt;/p&gt;
+
+&lt;p&gt;A value that can be altered is a mutable value. Sets are mutable, elements can be added or removed using &lt;strong&gt;add&lt;/strong&gt; and &lt;strong&gt;remove&lt;/strong&gt; methods.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;gt;&amp;gt;&amp;gt; S = {1, 2, 3}
+&amp;gt;&amp;gt;&amp;gt; S.add(4)
+&amp;gt;&amp;gt;&amp;gt; S.remove(2)
+&amp;gt;&amp;gt;&amp;gt; S
+{1, 3, 4}
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Python using method &lt;strong&gt;update&lt;/strong&gt; to set all elements of other collection.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;gt;&amp;gt;&amp;gt; S.update({4, 5, 6})
+&amp;gt;&amp;gt;&amp;gt; S
+{1, 3, 4, 5, 6}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;And one can intersect a set with another collections and removing from the set all elemetns not in the other collections:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;gt;&amp;gt;&amp;gt; S.intersection_update({5, 6, 7, 8, 9})
+&amp;gt;&amp;gt;&amp;gt; S
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Set comprehensitions&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\{2x : x \in \{ 1, 2, 3\}\}&lt;/script&gt;
+
+&lt;p&gt;can write in Python as:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;gt;&amp;gt;&amp;gt; {2 * x for x in {1, 2, 3}}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;h5 id=&quot;lists&quot;&gt;Lists&lt;/h5&gt;
+
+&lt;p&gt;Python represents sequences of values using &lt;em&gt;lists&lt;/em&gt;. In a list, order is signification and repeated elements are allowed. The notation for lists uses square brackets.&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;gt;&amp;gt;&amp;gt; [1, 2, 3, 2, 3]
+[1, 2, 3, 2, 3]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;List can contain a set or another lists.&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;gt;&amp;gt;&amp;gt; [[1, 2, 3], {2, 3, 4}, &quot;ok]
+[[1, 2, 3], {2, 3, 4}, 'ok']
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;em&gt;But a set cannot contain a list because lists are mutable.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;the &lt;em&gt;length&lt;/em&gt; of a list obtained using the procedure &lt;em&gt;len&lt;/em&gt;, and the sum of elements of a collection can be computed using &lt;em&gt;sum&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;to combine the elements in one list with other list. using operator +.&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;gt;&amp;gt;&amp;gt; [1, 2, 3] + ['a', 'b']
+[1, 2, 3, 'a', 'b']
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;to concat multiple list, we also can use sum function with providing [] as the second argument.&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;gt;&amp;gt;&amp;gt; sum([[1, 2, 3], ['a', 'b']], [])
+[1, 2, 3, 'a', 'b']
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Same as set, list also can use comprehensions.&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;gt;&amp;gt;&amp;gt; [2 * x for x in {1, 2, 3}]
+[2, 4, 6]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Obtaining elements of list by indexing
+&lt;em&gt;in set, we cannot using indexing to obtain element, since the order is not significant in set&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;The are two ways to obtain an individual element of list. first is by indexing. index in list is started from 0.&lt;/p&gt;
+
+&lt;p&gt;Slices: a slice is a new list consisting of consecutive subsequence of elements of the old ist, namely those indexed by range of integers. the range is specified by a colon-separated pair &lt;em&gt;i: j&lt;/em&gt; consisting of the index &lt;em&gt;i&lt;/em&gt; as first element and &lt;em&gt;j&lt;/em&gt; as one past the index of last element.&lt;/p&gt;
+
+&lt;p&gt;Prefixes and Suffixes also used in list, &lt;em&gt;i&lt;/em&gt; or &lt;em&gt;j&lt;/em&gt; can be omitted, so mylist[:2] consists the first two element index: 0, 2, and [2:] consists all element start from 2 (2, 3, 4..)
+.&lt;/p&gt;
+
+&lt;p&gt;Slides that skip. we can use colon-separated triple a:b:c if want slide to include every $c^{th}$ element. for example:
+mylist[::3] consists each $3^{th}$ element.&lt;/p&gt;
+
+&lt;p&gt;Obtaining elements of list by unpacking. Instend assigning a list to single variable, one can assign to list of variables like: [x, y, z] = [1, 2, 3].&lt;/p&gt;
+
+&lt;h5 id=&quot;tuples&quot;&gt;Tuples&lt;/h5&gt;
+&lt;p&gt;Like a list, tuple is an ordered sequence of elements. However, tuples are immutable so they can be elements of sets.&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;gt;&amp;gt;&amp;gt; (1, 2 + 1, 4)
+(1, 3, 4)
+
+&amp;gt;&amp;gt;&amp;gt; {1, 2, (3, 4)} | {(5, 6)}
+{1, 2, (3, 4), (5, 6)}
+
+&amp;gt;&amp;gt;&amp;gt; {1, 2, (3, 4)} &amp;amp; {(5, 6)}
+set()
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Obtaining elements of tuble by indexing and unpacking&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;gt;&amp;gt;&amp;gt; (1, 2, 3, {4, 5})[3]
+{4, 5}
+
+&amp;gt;&amp;gt;&amp;gt; (a, b, c) = (1, 2, 3)
+&amp;gt;&amp;gt;&amp;gt; a
+1
+
+&amp;gt;&amp;gt;&amp;gt; a, b, c = (1, 2, 3)
+&amp;gt;&amp;gt;&amp;gt; b
+2
+
+&amp;gt;&amp;gt;&amp;gt; a, b, c = 1, 2, 3
+&amp;gt;&amp;gt;&amp;gt; c
+3
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Obtaining a list or set form other collection by using constructor &lt;em&gt;list&lt;/em&gt;, &lt;em&gt;set&lt;/em&gt;, &lt;em&gt;tuple&lt;/em&gt;&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;gt;&amp;gt;&amp;gt; list({1, 2, 3})
+[1, 2, 3]
+&amp;gt;&amp;gt;&amp;gt; set([1,1, 2, 3, 3])
+{1, 2, 3}
+&amp;gt;&amp;gt;&amp;gt; tuple({1, 2, 3, 4})
+(1, 2, 3, 4)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Tuple comprehensiton is not return a tuple - it return a generator.&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;gt;&amp;gt;&amp;gt; (x for x in [1, 2, 3])
+ &amp;lt;generator object &amp;lt;genexpr&amp;gt; at 0...
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;To convert to list or tuple, use list, tuple constructor&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;gt;&amp;gt;&amp;gt; tuple((x for x in [1, 2, 3]))
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h5 id=&quot;ranges&quot;&gt;Ranges&lt;/h5&gt;
+&lt;p&gt;for any integer &lt;em&gt;n&lt;/em&gt; &lt;strong&gt;range(n)&lt;/strong&gt; represents the sequence of integers from &lt;em&gt;0&lt;/em&gt; to &lt;em&gt;n-1&lt;/em&gt;. For example range(10) represents the integers from 0 through 9. thefore, the value of the following comprehension is the sum of the squares of these integers: &lt;code class=&quot;highlighter-rouge&quot;&gt;sum({i * i for i in range(10)})&lt;/code&gt;. to turn the range into list or set, tuple, we can use constructor &lt;em&gt;list, set, tuple,&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Task 0.5.18&lt;/strong&gt; write a comprehension over a range of the from range(n) such that the value of the comprehension is the set of odd numbers from 1 to 99&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Answer&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;gt;&amp;gt;&amp;gt; {x for x in range(100) if x % 2}
+
+# or
+&amp;gt;&amp;gt;&amp;gt; {x for x in tuple(range(100))[1::2]}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;We also can form a range with one, two or three arguments. the expression range(a, b) represents the sequence of integers $a, a + 1, a + 2, … b -1$. and range(a, b, c) represents the sequence of integers $a, a + c, a + 2c, ..$ stopping just before of b.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;gt;&amp;gt;&amp;gt; tuple(range(5, 10))
+(5, 6, 7, 8, 9)
+
+&amp;gt;&amp;gt;&amp;gt; tuple(range(1, 10, 3))  
+(1, 4, 7)
+
+&amp;gt;&amp;gt;&amp;gt; tuple(range(0, 10, 3))
+(0, 3, 6, 9)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h5 id=&quot;zip&quot;&gt;Zip&lt;/h5&gt;
+&lt;p&gt;Another collection can be interated orver is a &lt;em&gt;zip&lt;/em&gt;. zip is constructed from other collections all of the same length. each lement of the zip is a tuple consisting of one element from each of the input collections.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;gt;&amp;gt;&amp;gt; tuple(zip([1, 2, 3], [4, 5, 6]))
+( (1, 4), (2, 5), (3, 6) )
+
+&amp;gt;&amp;gt;&amp;gt; characters = ['Neo', 'Morpheus', 'Trinity']
+&amp;gt;&amp;gt;&amp;gt; actors = ['Neanu', 'Laurence', 'Carrie-Anne']
+&amp;gt;&amp;gt;&amp;gt; set(zip(characters, actors))
+
+&amp;gt;&amp;gt;&amp;gt; [character + ' is played by ' + actor for  (character, actor) in zip(characters, actors)]
+
+['Neo is played by Neanu',
+ 'Morpheus is played by Laurence',
+ 'Trinity is played by Carrie-Anne']
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;Task 0.5.19&lt;/strong&gt;: Assign to L the list consisting of the first five letters [‘A’, ‘B’, ‘C’, ‘D’, ‘E’]. Next use L in an exprssion whose value is: &lt;br /&gt;
+   [ (0, ‘A’), (1, ‘B’), .. (‘4’, ‘E’) ]
+your expression should use a range and a zip, but should not use a comprehention.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Answer&lt;/strong&gt;:&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;gt;&amp;gt;&amp;gt; L = ['A', 'B', 'C', 'D', 'E']
+&amp;gt;&amp;gt;&amp;gt; list(zip(range(len(L)), L))
+[(0, 'A'), (1, 'B'), (2, 'C'), (3, 'D'), (4, 'E')]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;Task 0.5.20&lt;/strong&gt;: Starting from the lists [10, 25, 40] and [1, 15, 20], write a comprehention whose value is the three-element list in which the first element is the sum of 10 and 1, the second is the sum of 25 and 15, and the third is the sum of 40 and 20. Your expression should se zip but not list.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Answer&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;gt;&amp;gt;&amp;gt; [x + y for  (x, y) in zip([10, 25, 40], [1, 15, 20])]
+[11, 40, 60]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;To reverse order of list, use &lt;em&gt;reversed(L)&lt;/em&gt; function, which dose not change the list L,&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;gt;&amp;gt;&amp;gt; reversed([1, 2, 3])
+[3, 2, 1]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;dictionaries&quot;&gt;Dictionaries&lt;/h4&gt;
+&lt;p&gt;a dictionary is a set of key-value pairs. example: function &lt;em&gt;f&lt;/em&gt; that maps each letter in the alphabet to its rank in alphabet could be written as:&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;'A':&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;0,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;'B':&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;1,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;'C':&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;2,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;...&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;'Z':&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;25&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;In Math it’s can written as:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{array}{}
+  A \mapsto 0 &amp;  B \mapsto 1  &amp; C \mapsto 2 &amp; \cdots &amp; Z\mapsto 25 
+\end{array} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;As in sets, the order of the key-value pairs is irrelavant, and the keys must be &lt;strong&gt;immutable&lt;/strong&gt; (no sets, lists or dictionaries). The keys will mostly be integers, strings, tuples of strings and integers. The keys and values can be specified with expressions.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;gt;&amp;gt;&amp;gt; { 2 + 1: 'thr' + 'ee', 2 * 2: 'fo' + 'ur' }
+{3: 'three', 4: 'four'}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Each key in a dictionary there corresponds only one value. if a dictionary is given multiple values for the same key, only one value will be associated with that key.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;gt;&amp;gt;&amp;gt; {'0': 'zero', '0': 'nothing'}
+{'0': 'nothing'}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Obtaining the value corresponding to a particular key uses the same syntax as indexing a list or tuple. If the key is not represented in the dictionary, python considers it an KeyError.&lt;/p&gt;
+
+&lt;p&gt;To check where a key is in a dictionary using the &lt;em&gt;in&lt;/em&gt; operator like testing membership for set.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;gt;&amp;gt;&amp;gt; d = {'Oracle': 'DB', 'Apple': 'OSX'}
+&amp;gt;&amp;gt;&amp;gt; d['Oracle'] if 'Oracle' in d else 'NOT PRESENT'
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Task 0.5.21&lt;/strong&gt;: Suppose dlist is a list of dictionaries and &lt;em&gt;k&lt;/em&gt; is a key that appears in all the dictionaries in dlist. Write a comprehension that evaluates to the list whose $i^{th}$ element is the value corresponding to key &lt;em&gt;k&lt;/em&gt; in the $i^{th}$ dictionary in dlist.&lt;/p&gt;
+
+&lt;p&gt;Here is some sample test data:&lt;/p&gt;
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;dlist&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[{&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'James'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'Sean'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'director'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'Terence'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'James'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'Roger'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'director'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'Lewis'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'James'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'Pierce'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'director'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'Roger'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}]&lt;/span&gt; 
+
+&lt;span class=&quot;c&quot;&gt;# k = 'James'&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Answer&lt;/strong&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;gt;&amp;gt;&amp;gt; [d[k] for d for d in dlist]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;The &lt;em&gt;identity function&lt;/em&gt; on set D is the function with the following spect:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;em&gt;input&lt;/em&gt;: an element x of D&lt;/li&gt;
+  &lt;li&gt;&lt;em&gt;output&lt;/em&gt;: x&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;example a dictionary that represents the identity function on D = {‘red’, ‘white’, ‘blue’}&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;gt;&amp;gt;&amp;gt;D = {'red', 'white', 'blue'}
+&amp;gt;&amp;gt;&amp;gt;d = {x:x for x in D}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;key union and interset&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;gt;&amp;gt;&amp;gt; [k for k in {'a': 1, 'b': 2}.keys() | {'a': 2, 'c': 4}.keys()]
+['a', 'b', 'c']
+
+&amp;gt;&amp;gt;&amp;gt; [k for k in {'a': 1, 'b': 2}.keys() &amp;amp; {'a': 2, 'c': 4}.keys()]
+
+['a']
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;iterates over the (key, value) pairs of dictionary using items(). Each pair is tuple.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;gt;&amp;gt;&amp;gt; id2salary = {0: 100, 3:900, 1: 1222}
+&amp;gt;&amp;gt;&amp;gt; names = ['Larry', 'Curly', '',  'Moe']
+&amp;gt;&amp;gt;&amp;gt; {names[k]: v for k,v in id2salary.items()}
+{'Curly': 1222, 'Larry': 100, 'Moe': 900}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;defining-one-lin-procedures&quot;&gt;Defining one-lin procedures&lt;/h4&gt;
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;twice&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;z&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;z&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;The word &lt;em&gt;def&lt;/em&gt; introduces a procedure definition. name of function being defined is twice, the variable z called the &lt;em&gt;formal argument&lt;/em&gt; to the procedure. once this procedure is defined, you can invoke it using the usual notation: the name of procedure followed by expression in parentheis, e.g: &lt;em&gt;twice(1+ 2)&lt;/em&gt;. The value 3 of expression &lt;em&gt;1+2&lt;/em&gt; is &lt;em&gt;actual agument&lt;/em&gt; to the procedure. when procedure invoked, the formal agument is temporarily bound to the actual argument, and the body of procedure is excuted. at the and, the binding of the actual argument is removed.&lt;/p&gt;
+</description>
+        <pubDate>Tue, 26 Sep 2017 00:00:00 +0900</pubDate>
+        <link>http://localhost:4000/2017/09/coding-maxtrix-c1-func</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/09/coding-maxtrix-c1-func</guid>
+        
+        <category>linear-algebra</category>
+        
+        <category>function</category>
+        
+        
+      </item>
     
       <item>
         <title>Mathematical notation, equation, formulas with MathJax</title>
